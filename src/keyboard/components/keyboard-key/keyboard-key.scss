@@ -1,0 +1,52 @@
+/**
+ * 键盘按键样式
+ */
+
+.btn {
+    display: block;
+    font-size: 28px;
+    color: #666;
+    font-weight: bold;
+    height: 54px;
+    line-height: 52px;
+    &-clear,
+    &-submit {
+        font-size: 18px;
+        font-weight: normal;
+    }
+    &-x {
+        font-weight: normal;
+        text-transform: lowercase;
+    }
+    &-backspace {
+        &::before {
+            content: '⬅';
+            display: inline-block;
+            width: 34px;
+            height: 24px;
+        }
+    }
+    &.active {
+        background-color: #5580d8;
+        color: #fff;
+        &.btn-backspace:before {
+            background-position: 0 -24px;
+        }
+    }
+}
+
+// 数字键盘/证件键盘 - 带完成按钮
+.num,
+.decimal,
+.id {
+    .btn {
+        &-backspace,
+        &-submit {
+            height: 109px;
+            line-height: 109px;
+        }
+        &-backspace {
+            position: relative;
+        }
+    }
+}

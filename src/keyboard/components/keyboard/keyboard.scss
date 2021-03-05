@@ -1,0 +1,95 @@
+@charset "utf-8";
+
+/**
+ * 键盘样式
+ */
+
+.ui-keyboard {
+    * {
+        box-sizing: border-box;
+    }
+    // 外层容器
+    &-wrapper {
+        -webkit-user-select: none;
+        user-select: none;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1000;
+        width: 100%;
+        height: auto;
+        background: #fff;
+        border-top: 1px solid #e5e5e5;
+    }
+    &-top {
+        position: relative;
+        border-bottom: 1px solid #e5e5e5;
+    }
+    &-title {
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        font-size: 12px;
+        color: #434c67;
+    }
+    // &-pane {}
+    // 收起键盘
+    &-close {
+        position: absolute;
+        width: 54px;
+        height: 45px;
+        right: 0;
+        top: 0;
+        &:before {
+            content: '收起';
+            display: inline-block;
+            position: absolute;
+            right: 15px;
+            top: 13px;
+            width: 22px;
+            height: 19px;
+        }
+    }
+    // 切换输入法
+    &-switch {
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding: 14px 15px;
+        font-size: 12px;
+        color: #2e6dd6;
+    }
+    //
+    table {
+        border-collapse: collapse;
+        text-align: center;
+        width: 100%;
+        border-style: hidden;
+    }
+    td {
+        border: 1px solid #e5e5e5;
+    }
+    // 数字键盘
+    &.num,
+    &.decimal {
+        td {
+            width: 25%;
+        }
+        &-simple {
+            td {
+                width: 33%;
+            }
+        }
+    }
+    // 证件键盘
+    &.id {
+        td {
+            width: 25%;
+        }
+    }
+}
+
+app-keyboard-key {
+    display: block;
+}
