@@ -1,6 +1,14 @@
 import {
     defineComponent,
+    onBeforeMount,
     onMounted,
+    onBeforeUpdate,
+    onUpdated,
+    onBeforeUnmount,
+    onUnmounted,
+    onActivated,
+    onDeactivated,
+    onErrorCaptured,
     reactive,
     toRaw,
     shallowRef,
@@ -65,10 +73,9 @@ export default defineComponent({
 
         /** 路由跳转事件订阅 */
         // private routerSub!: Subscription;
+        console.log('keyboard component  setup :');
 
-        const keyboardService = new KeyboardService({
-            input: props.input,
-        });
+        let keyboardService: any = null;
 
         const state = reactive({
             /** 默认键盘布局 */
@@ -152,12 +159,54 @@ export default defineComponent({
             }
         };
 
+        onBeforeMount(() => {
+            console.log('onBeforeMount', props.input);
+            keyboardService = new KeyboardService({
+                input: props.input,
+            });
+            // ...
+        });
+
         onMounted(() => {
+            if (props.input) {
+                console.log('onMounted', props.input);
+            }
             // 初始化键盘布局
             state.layout = keyboardLayoutService.getLayout(
                 props.type,
                 props.random
             );
+        });
+
+        onBeforeUpdate(() => {
+            if (props.input) {
+                console.log('onBeforeUpdate', props.input);
+            }
+        });
+        onUpdated(() => {
+            if (props.input) {
+                console.log('onUpdated', props.input);
+            }
+        });
+        onBeforeUnmount(() => {
+            if (props.input) {
+                console.log('onBeforeUnmount', props.input);
+            }
+        });
+        onUnmounted(() => {
+            if (props.input) {
+                console.log('onUnmounted', props.input);
+            }
+        });
+        onActivated(() => {
+            if (props.input) {
+                console.log('onActivated', props.input);
+            }
+        });
+        onDeactivated(() => {
+            if (props.input) {
+                console.log('onDeactivated', props.input);
+            }
         });
 
         return {
