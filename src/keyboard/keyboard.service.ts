@@ -46,10 +46,6 @@ class KeyboardService {
         this.bindInputEvent();
     }
 
-    get showKeyboard() {
-        return this.isOpened;
-    }
-
     bindInputEvent() {
         this.input.addEventListener('focus', this.inputOnFocus.bind(this));
         this.input.addEventListener('blur', this.inputOnBlur.bind(this));

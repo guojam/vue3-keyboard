@@ -113,26 +113,16 @@ export default defineComponent({
         /** 清空字符 */
         const inputClear = () => {
             context.emit('keyboard-input', { type: 'clear' });
-            // keyboardService.onInput({
-            //     type: 'clear',
-            // });
         };
 
         /** 删除字符 */
         const inputDelete = () => {
             context.emit('keyboard-input', { type: 'delete' });
-            // keyboardService.onInput({
-            //     type: 'delete',
-            // });
         };
 
         /**  添加字符 */
         const inputAdd = (value: string) => {
             context.emit('keyboard-input', { type: 'add', value });
-            // keyboardService.onInput({
-            //     type: 'add',
-            //     value,
-            // });
         };
 
         /** 设置长按删除 */
@@ -157,13 +147,19 @@ export default defineComponent({
             // ...
         });
 
-        onMounted(() => {
-            console.log('onMounted');
-            // 初始化键盘布局
+        /** 初始化键盘布局 */
+        const initLayout = () => {
             state.layout = keyboardLayoutService.getLayout(
                 props.type,
                 props.random
             );
+        };
+
+        onMounted(() => {
+            console.log('onMounted');
+
+            // 初始化键盘布局
+            initLayout();
         });
 
         onBeforeUpdate(() => {

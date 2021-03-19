@@ -6,7 +6,11 @@
                 <app-keyboard-input name="username" id="username" />
             </div>
             <div class="form-item">
-                <label for="password">数字</label>
+                <label for="number">数字</label>
+                <app-keyboard-input name="number" id="number" />
+            </div>
+            <div class="form-item">
+                <label for="password">密码</label>
                 <app-keyboard-input
                     type="password"
                     name="password"
