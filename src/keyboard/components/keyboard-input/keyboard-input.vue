@@ -3,7 +3,11 @@
     <teleport to="body">
         <app-keyboard
             v-show="keyboardState.isOpened"
+            :switchAble="switchAble"
+            @keyboard-open="onKeyboardOpen"
+            @keyboard-close="onKeyboardClose"
             @keyboard-input="onKeyboardInput"
+            @click.stop
         ></app-keyboard>
     </teleport>
 </template>
@@ -19,7 +23,6 @@ import {
     toRaw,
 } from 'vue';
 import Keyboard from '../keyboard/keyboard.vue';
-// import KeyboardService from '../../keyboard.service';
 
 export default defineComponent({
     components: {
@@ -32,6 +35,7 @@ export default defineComponent({
             type: String,
             default: 'text',
         },
+        switchAble: false,
     },
     setup(props) {
         const showKeyboard = ref(false);
@@ -72,7 +76,6 @@ export default defineComponent({
         });
 
         const inputOnFocus = (event: Event) => {
-            console.log('inputOnFocus');
             if (!keyboardState.hasChangeIM) {
                 // 未切换到系统输入法时
                 const input = state.inputRef;
@@ -96,7 +99,6 @@ export default defineComponent({
         };
 
         const inputOnBlur = () => {
-            console.log('inputOnBlur');
             if (keyboardState.hasChangeIM) {
                 // 当使用系统输入法时，清除标识
                 keyboardState.hasChangeIM = false;
@@ -112,6 +114,9 @@ export default defineComponent({
                 keyboardState.isOpened = true;
                 // 设置光标
                 // setCaret();
+
+                // 订阅body点击事件
+                subscribeEvent();
             }
         };
 
@@ -121,7 +126,7 @@ export default defineComponent({
 
             if (keyboardState.isOpened) {
                 // 取消订阅键盘相关事件
-                // this.unsubscribeEvent();
+                unsubscribeEvent();
                 //  销毁键盘组件
                 // this.destroyComponent(this.keyboardRef);
                 keyboardState.isOpened = false;
@@ -133,7 +138,7 @@ export default defineComponent({
         };
 
         /** 键盘打开事件 */
-        const onOpen = ($event: any) => {
+        const onKeyboardOpen = ($event: any) => {
             // 获取键盘高度
             keyboardState.keyboardHeight = $event.height;
             // 调整页面空间
@@ -141,7 +146,9 @@ export default defineComponent({
         };
 
         /** 键盘关闭事件 */
-        const onClose = (action?: string) => {
+        const onKeyboardClose = (action?: string) => {
+            console.log('onKeyboardClose, action:', action);
+
             const input = state.inputRef;
             // 延时，避免点击穿透
             setTimeout(() => {
@@ -160,6 +167,8 @@ export default defineComponent({
                 }
             }, 50);
             if (action === 'changeIM') {
+                // ios下通过input click来触发focus弹出键盘
+                input.click();
                 keyboardState.hasChangeIM = true;
             }
         };
@@ -195,7 +204,7 @@ export default defineComponent({
         /** 订阅相关事件 */
         const subscribeEvent = () => {
             const input = state.inputRef;
-            // 监听body点击事件
+            // TODO: 要移回键盘组件  // 监听body点击事件
             keyboardState.docClickHandler = document.addEventListener(
                 'click',
                 (ev: Event) => {
@@ -379,14 +388,14 @@ export default defineComponent({
             if (state.inputRef) {
                 keyboardState.keyboardContainer = 'body';
                 bindInputEvent();
-
-                subscribeEvent();
             }
         });
         return {
             ...toRefs(state),
             keyboardState,
             onKeyboardInput,
+            onKeyboardOpen,
+            onKeyboardClose,
         };
     },
 });

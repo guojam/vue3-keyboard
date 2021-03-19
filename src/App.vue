@@ -7,7 +7,11 @@
             </div>
             <div class="form-item">
                 <label for="number">数字</label>
-                <app-keyboard-input name="number" id="number" />
+                <app-keyboard-input
+                    name="number"
+                    id="number"
+                    :switchAble="true"
+                />
             </div>
             <div class="form-item">
                 <label for="password">密码</label>

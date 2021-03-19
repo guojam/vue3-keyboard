@@ -60,13 +60,11 @@ export default defineComponent({
         // @Output() onClose = new EventEmitter<any>();
         // @Output() onInput = new EventEmitter<any>();
 
-        /** 文档点击监听 */
-        // private docClickHandler: any;
-
         /** 路由跳转事件订阅 */
         // private routerSub!: Subscription;
 
         const state = reactive({
+            wrapperRef: undefined as HTMLElement | undefined,
             /** 默认键盘布局 */
             layout: [] as KeyInterface[][],
             /** 删除键长按计时器 */
@@ -79,7 +77,7 @@ export default defineComponent({
                 type = $event.type;
             console.log('onKeyPress:', key, type);
             // 清除长按删除
-            // this.clearPressDel();
+            clearPressDel();
             if (key.special) {
                 // 功能键
                 if (key.keyValue === 'backspace') {
@@ -87,7 +85,7 @@ export default defineComponent({
                     if (type === 'press') {
                         // 长按
                         // 设置长按删除
-                        // this.setPressDel();
+                        setPressDel();
                     } else {
                         // 单次点击
                         // 删除input value
@@ -102,7 +100,7 @@ export default defineComponent({
                 if (key.keyValue === 'submit') {
                     // 完成键
                     // 关闭键盘
-                    // this.close();
+                    close();
                 }
             } else {
                 // 数字键
@@ -141,11 +139,15 @@ export default defineComponent({
             }
         };
 
-        onBeforeMount(() => {
-            console.log('onBeforeMount');
+        /** 关闭键盘 */
+        const close = () => {
+            context.emit('keyboard-close');
+        };
 
-            // ...
-        });
+        /** 切换输入法 */
+        const changeInputMethod = () => {
+            context.emit('keyboard-close', 'changeIM');
+        };
 
         /** 初始化键盘布局 */
         const initLayout = () => {
@@ -156,34 +158,22 @@ export default defineComponent({
         };
 
         onMounted(() => {
-            console.log('onMounted');
-
             // 初始化键盘布局
             initLayout();
-        });
 
-        onBeforeUpdate(() => {
-            console.log('onBeforeUpdate');
-        });
-        onUpdated(() => {
-            console.log('onUpdated');
-        });
-        onBeforeUnmount(() => {
-            console.log('onBeforeUnmount');
-        });
-        onUnmounted(() => {
-            console.log('onUnmounted');
-        });
-        onActivated(() => {
-            console.log('onActivated');
-        });
-        onDeactivated(() => {
-            console.log('onDeactivated');
+            const wrapper = state.wrapperRef;
+            // 弹射键盘打开事件
+            if (wrapper) {
+                context.emit('keyboard-open', {
+                    height: wrapper.offsetHeight, // 键盘高度
+                });
+            }
         });
 
         return {
             ...toRefs(state),
             onKeyPress,
+            changeInputMethod,
         };
     },
 });
