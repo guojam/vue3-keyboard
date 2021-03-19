@@ -2,7 +2,7 @@
     <div class="ui-keyboard-wrapper">
         <div :class="['ui-keyboard', type]">
             <div class="ui-keyboard-top">
-                <div class="ui-keyboard-title">安全加密键盘</div>
+                <div class="ui-keyboard-title">安全键盘</div>
                 <span
                     v-if="closeAble"
                     class="ui-keyboard-close"

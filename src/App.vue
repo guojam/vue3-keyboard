@@ -3,45 +3,32 @@
         <form action="">
             <div class="form-item">
                 <label for="username">全键盘</label>
-                <input type="text" id="username" ref="inputUsername" />
+                <app-keyboard-input name="username" id="username" />
             </div>
             <div class="form-item">
                 <label for="password">数字</label>
-                <input type="password" id="password" ref="inputPassword" />
+                <app-keyboard-input
+                    type="password"
+                    name="password"
+                    id="password"
+                />
             </div>
+            <!-- <div class="form-item">
+                <label for="password">数字</label>
+                <input type="password" id="password" />
+            </div> -->
         </form>
     </div>
-    <app-keyboard
-        :input="inputUsername"
-        @keyboard-input="onKeyboardInput"
-    ></app-keyboard>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import { Keyboard } from './keyboard/';
+import { KeyboardInput } from './keyboard/';
 
 export default defineComponent({
     name: 'App',
     components: {
-        'app-keyboard': Keyboard,
-    },
-    setup() {
-        const inputUsername = ref(null),
-            inputPassword = ref(null);
-
-        const onKeyboardInput = (ev) => {
-            const { type } = ev.type;
-            console.log('onKeyboardInput', type);
-        };
-        onMounted(() => {
-            console.log('inputUsername', inputUsername.value);
-        });
-        return {
-            inputUsername,
-            inputPassword,
-            onKeyboardInput,
-        };
+        'app-keyboard-input': KeyboardInput,
     },
 });
 </script>

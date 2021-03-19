@@ -1,2 +1,4 @@
 import Keyboard from './components/keyboard/keyboard.vue';
-export { Keyboard };
+import KeyboardInput from './components/keyboard-input/keyboard-input.vue';
+
+export { Keyboard, KeyboardInput };

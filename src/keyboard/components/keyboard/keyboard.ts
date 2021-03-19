@@ -17,18 +17,10 @@ import {
 import { KeyInterface } from '../../keyboard.model';
 import KeyboardKey from '../keyboard-key/keyboard-key.vue';
 import keyboardLayoutService from '../../keyboard-layout.service';
-import KeyboardService from '../../keyboard.service';
 
 export default defineComponent({
     components: { 'app-keyboard-key': KeyboardKey },
     props: {
-        /** 键盘对应的输入框 */
-        input: {
-            type: HTMLInputElement,
-            required: true,
-        },
-        // @Input() input!: HTMLInputElement;
-
         /** 键盘类型，默认数字键盘'num'，证件键盘'id' */
         type: {
             type: String,
@@ -73,9 +65,6 @@ export default defineComponent({
 
         /** 路由跳转事件订阅 */
         // private routerSub!: Subscription;
-        console.log('keyboard component  setup :');
-
-        let keyboardService: any = null;
 
         const state = reactive({
             /** 默认键盘布局 */
@@ -123,24 +112,27 @@ export default defineComponent({
 
         /** 清空字符 */
         const inputClear = () => {
-            keyboardService.onInput({
-                type: 'clear',
-            });
+            context.emit('keyboard-input', { type: 'clear' });
+            // keyboardService.onInput({
+            //     type: 'clear',
+            // });
         };
 
         /** 删除字符 */
         const inputDelete = () => {
-            keyboardService.onInput({
-                type: 'delete',
-            });
+            context.emit('keyboard-input', { type: 'delete' });
+            // keyboardService.onInput({
+            //     type: 'delete',
+            // });
         };
 
         /**  添加字符 */
         const inputAdd = (value: string) => {
-            keyboardService.onInput({
-                type: 'add',
-                value,
-            });
+            context.emit('keyboard-input', { type: 'add', value });
+            // keyboardService.onInput({
+            //     type: 'add',
+            //     value,
+            // });
         };
 
         /** 设置长按删除 */
@@ -160,17 +152,13 @@ export default defineComponent({
         };
 
         onBeforeMount(() => {
-            console.log('onBeforeMount', props.input);
-            keyboardService = new KeyboardService({
-                input: props.input,
-            });
+            console.log('onBeforeMount');
+
             // ...
         });
 
         onMounted(() => {
-            if (props.input) {
-                console.log('onMounted', props.input);
-            }
+            console.log('onMounted');
             // 初始化键盘布局
             state.layout = keyboardLayoutService.getLayout(
                 props.type,
@@ -179,34 +167,22 @@ export default defineComponent({
         });
 
         onBeforeUpdate(() => {
-            if (props.input) {
-                console.log('onBeforeUpdate', props.input);
-            }
+            console.log('onBeforeUpdate');
         });
         onUpdated(() => {
-            if (props.input) {
-                console.log('onUpdated', props.input);
-            }
+            console.log('onUpdated');
         });
         onBeforeUnmount(() => {
-            if (props.input) {
-                console.log('onBeforeUnmount', props.input);
-            }
+            console.log('onBeforeUnmount');
         });
         onUnmounted(() => {
-            if (props.input) {
-                console.log('onUnmounted', props.input);
-            }
+            console.log('onUnmounted');
         });
         onActivated(() => {
-            if (props.input) {
-                console.log('onActivated', props.input);
-            }
+            console.log('onActivated');
         });
         onDeactivated(() => {
-            if (props.input) {
-                console.log('onDeactivated', props.input);
-            }
+            console.log('onDeactivated');
         });
 
         return {
