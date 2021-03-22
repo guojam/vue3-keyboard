@@ -6,6 +6,10 @@
                 <app-keyboard-input name="username" id="username" />
             </div>
             <div class="form-item">
+                <label for="username">身份证</label>
+                <app-keyboard-input keyboard="id" name="idcard" id="idcard" />
+            </div>
+            <div class="form-item">
                 <label for="number">数字</label>
                 <app-keyboard-input
                     name="number"
@@ -16,15 +20,12 @@
             <div class="form-item">
                 <label for="password">密码</label>
                 <app-keyboard-input
+                    keyboard="inline-num"
                     type="password"
                     name="password"
                     id="password"
                 />
             </div>
-            <!-- <div class="form-item">
-                <label for="password">数字</label>
-                <input type="password" id="password" />
-            </div> -->
         </form>
     </div>
 </template>

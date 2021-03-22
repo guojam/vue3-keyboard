@@ -2,6 +2,7 @@
     <input :type="inputType" :name="inputName" :id="inputId" ref="inputRef" />
     <teleport to="body" v-if="keyboardState.isOpened">
         <app-keyboard
+            :type="keyboardType"
             :switchAble="switchAble"
             @keyboard-open="onKeyboardOpen"
             @keyboard-close="onKeyboardClose"
@@ -35,6 +36,10 @@ export default defineComponent({
             type: String,
             default: 'text',
         },
+        keyboard: {
+            type: String,
+            default: 'num',
+        },
         switchAble: false,
     },
     setup(props) {
@@ -44,11 +49,11 @@ export default defineComponent({
             inputName: props.name,
             inputType: props.type,
             inputId: props.id,
+            /** 键盘类型，默认数字键盘'num'，证件键盘'id' */
+            keyboardType: props.keyboard,
         });
 
         const keyboardState = reactive({
-            /** 键盘类型，默认数字键盘'num'，证件键盘'id' */
-            keyboardType: 'num',
             /** 键位是否随机 */
             keyboardRandom: false,
             /** 显示关闭按钮 */
@@ -108,7 +113,6 @@ export default defineComponent({
             // 如键盘还未打开
             if (!keyboardState.isOpened) {
                 // 创建键盘
-                // this.createKeyboard();
                 keyboardState.isOpened = true;
                 // 设置光标
                 // setCaret();
@@ -121,7 +125,6 @@ export default defineComponent({
 
             if (keyboardState.isOpened) {
                 //  销毁键盘组件
-                // this.destroyComponent(this.keyboardRef);
                 keyboardState.isOpened = false;
                 // 移除光标
                 // removeCaret();
