@@ -1,13 +1,12 @@
 <template>
     <input :type="inputType" :name="inputName" :id="inputId" ref="inputRef" />
-    <teleport to="body">
+    <teleport to="body" v-if="keyboardState.isOpened">
         <app-keyboard
-            v-show="keyboardState.isOpened"
             :switchAble="switchAble"
             @keyboard-open="onKeyboardOpen"
             @keyboard-close="onKeyboardClose"
             @keyboard-input="onKeyboardInput"
-            @click.stop
+            @keyboard-doc-click="onKeyboardDocClick"
         ></app-keyboard>
     </teleport>
 </template>
@@ -16,6 +15,7 @@
 import {
     defineComponent,
     onMounted,
+    onBeforeUnmount,
     computed,
     reactive,
     ref,
@@ -69,8 +69,6 @@ export default defineComponent({
             fillerContainer: undefined,
             /** 键盘高度 */
             keyboardHeight: undefined,
-            /** 文档点击监听 */
-            docClickHandler: undefined,
             /** 路由跳转事件订阅 */
             // routerSub: undefined,
         });
@@ -114,9 +112,6 @@ export default defineComponent({
                 keyboardState.isOpened = true;
                 // 设置光标
                 // setCaret();
-
-                // 订阅body点击事件
-                subscribeEvent();
             }
         };
 
@@ -125,8 +120,6 @@ export default defineComponent({
             console.log('closeKeyboard');
 
             if (keyboardState.isOpened) {
-                // 取消订阅键盘相关事件
-                unsubscribeEvent();
                 //  销毁键盘组件
                 // this.destroyComponent(this.keyboardRef);
                 keyboardState.isOpened = false;
@@ -174,12 +167,14 @@ export default defineComponent({
         };
 
         const bindInputEvent = () => {
+            console.log('bindInputEvent');
             const input = state.inputRef;
             input.addEventListener('focus', inputOnFocus);
             input.addEventListener('blur', inputOnBlur);
         };
 
         const unbindInputEvent = () => {
+            console.log('unbindInputEvent');
             const input = state.inputRef;
             input.removeEventListener('focus', inputOnFocus);
             input.removeEventListener('blur', inputOnBlur);
@@ -201,39 +196,19 @@ export default defineComponent({
             }
         };
 
-        /** 订阅相关事件 */
-        const subscribeEvent = () => {
+        const onKeyboardDocClick = (target) => {
             const input = state.inputRef;
-            // TODO: 要移回键盘组件  // 监听body点击事件
-            keyboardState.docClickHandler = document.addEventListener(
-                'click',
-                (ev: Event) => {
-                    // 如点击对象不是当前输入框, 关闭键盘
-                    if (event.target !== input) {
-                        closeKeyboard();
-                    } else {
-                        // ios下通过input click来触发focus弹出键盘
-                        input.focus();
-                    }
-                }
+            console.log(
+                'onKeyboardDocClick, target === input',
+                target === input
             );
-
-            // 监听路由跳转事件
-            //  keyboardState.routerSub = this.router.events.subscribe((event) => {
-            //     if (event instanceof NavigationStart) {
-            //         // 路由跳转时关闭键盘
-            //         closeKeyboard();
-            //     }
-            // });
-        };
-
-        /** 取消订阅相关事件 */
-        const unsubscribeEvent = () => {
-            // 移除body点击监听器
-            keyboardState.docClickHandler();
-
-            // 取消订阅路由跳转事件
-            //  keyboardState.routerSub.unsubscribe();
+            // 如点击对象不是当前输入框, 关闭键盘
+            if (target !== input) {
+                closeKeyboard();
+            } else {
+                // ios下通过input click来触发focus弹出键盘
+                input.focus();
+            }
         };
 
         /** 清空字符 */
@@ -260,12 +235,12 @@ export default defineComponent({
 
         /** 设置输入框光标 */
         const setCaret = () => {
-            if (!this.keyboardCaret) {
+            if (!keyboardState.keyboardCaret) {
                 return;
             }
-            const input = this.input,
+            const input = state.inputRef,
                 inputStyles: any = window.getComputedStyle(input, null);
-            let caret = this.caret;
+            let caret = keyboardState.caret;
             if (!caret) {
                 caret = document.createElement('div');
                 // renderer.addClass(caret, 'ui-keyboard-caret');
@@ -279,18 +254,20 @@ export default defineComponent({
                 caret.style.right = '0';
             } else {
                 // 获取输入的文本宽度
-                const textWidth = this.getTextWidth(input);
+                const textWidth = getTextWidth(input);
                 caret.style.left = textWidth + 'px';
             }
 
-            this.caret = caret;
+            keyboardState.caret = caret;
         };
 
         /** 移除输入框光标 */
         const removeCaret = () => {
-            if (this.caret) {
-                this.caret.parentNode!.removeChild(this.caret);
-                this.caret = undefined;
+            if (keyboardState.caret) {
+                keyboardState.caret.parentNode!.removeChild(
+                    keyboardState.caret
+                );
+                keyboardState.caret = undefined;
             }
         };
 
@@ -318,20 +295,20 @@ export default defineComponent({
 
         /** 填充页面底部 */
         const setFiller = () => {
-            const inputItem = this.input.parentElement, // input所在的表单项元素
-                container = this.fillerContainer;
+            const inputItem = state.inputRef.parentElement, // input所在的表单项元素
+                container = keyboardState.fillerContainer;
 
             // 获取底部空间
             const bottomSpace =
                 container!.getClientRects()[0].bottom -
                 inputItem!.getClientRects()[0].bottom;
-            if (bottomSpace < this.keyboardHeight) {
+            if (bottomSpace < keyboardState.keyboardHeight) {
                 // 设置填充元素
                 keyboardState.filler = document.createElement('div');
                 // renderer.addClass(keyboardState.filler, 'ui-keyboard-container-filler');
                 container!.appendChild(keyboardState.filler);
                 keyboardState.filler.style.height =
-                    this.keyboardHeight - bottomSpace + 'px';
+                    keyboardState.keyboardHeight - bottomSpace + 'px';
                 // 填充元素滚动到可视区域
                 keyboardState.filler!.scrollIntoView(false);
             }
@@ -340,7 +317,9 @@ export default defineComponent({
         /** 移除页面底部填充 */
         const removeFiller = () => {
             if (keyboardState.filler) {
-                keyboardState.filler.parentNode?.removeChild(this.filler);
+                keyboardState.filler.parentNode?.removeChild(
+                    keyboardState.filler
+                );
                 keyboardState.filler = undefined;
             }
         };
@@ -390,12 +369,18 @@ export default defineComponent({
                 bindInputEvent();
             }
         });
+
+        onBeforeUnmount(() => {
+            unbindInputEvent();
+        });
+
         return {
             ...toRefs(state),
             keyboardState,
             onKeyboardInput,
             onKeyboardOpen,
             onKeyboardClose,
+            onKeyboardDocClick,
         };
     },
 });

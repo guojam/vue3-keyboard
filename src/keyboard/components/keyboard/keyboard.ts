@@ -157,10 +157,29 @@ export default defineComponent({
             );
         };
 
+        /** 点击文档事件 */
+        const docClickHandler = (event: Event) => {
+            context.emit('keyboard-doc-click', event.target);
+        };
+
+        /** 订阅相关事件 */
+        const subscribeEvent = () => {
+            console.log('document.addEventListener docClickHandler');
+            // 监听body点击事件
+            document.addEventListener('click', docClickHandler);
+        };
+
+        /** 取消订阅相关事件 */
+        const unsubscribeEvent = () => {
+            console.log('document.removeEventListener docClickHandler');
+            // 移除body点击监听器
+            document.removeEventListener('click', docClickHandler);
+        };
+
         onMounted(() => {
             // 初始化键盘布局
             initLayout();
-
+            subscribeEvent();
             const wrapper = state.wrapperRef;
             // 弹射键盘打开事件
             if (wrapper) {
@@ -168,6 +187,11 @@ export default defineComponent({
                     height: wrapper.offsetHeight, // 键盘高度
                 });
             }
+        });
+
+        onBeforeUnmount(() => {
+            console.log('onBeforeUnmount');
+            unsubscribeEvent();
         });
 
         return {

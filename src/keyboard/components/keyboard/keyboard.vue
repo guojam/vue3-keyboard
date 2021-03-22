@@ -1,5 +1,5 @@
 <template>
-    <div class="ui-keyboard-wrapper" ref="wrapperRef">
+    <div class="ui-keyboard-wrapper" ref="wrapperRef" @click.stop>
         <div :class="['ui-keyboard', type]">
             <div class="ui-keyboard-top">
                 <div class="ui-keyboard-title">安全键盘</div>
