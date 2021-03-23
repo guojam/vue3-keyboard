@@ -33,5 +33,13 @@ export const idLayout: KeyboardLayout = [
     ['1', '2', '3', 'backspace:1:2'],
     ['4', '5', '6'],
     ['7', '8', '9', 'submit:1:2'],
-    ['clear', '0', 'X'],
+    ['clear', '0', 'roman10'],
+];
+
+/** 全键盘布局 */
+export const allLayout: KeyboardLayout = [
+    ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+    ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+    ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'backspace'],
+    ['shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'submit:2:1'],
 ];

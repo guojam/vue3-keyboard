@@ -1,13 +1,12 @@
 <template>
     <span
         :class="[{ active: isActive }, currentClasses]"
-        @click="onClick"
         @touchstart="onTouchstart"
         @touchend.prevent="onTouchend"
         @contextmenu.prevent
         v-keyboard-press="onLongPress"
     >
-        {{ currentKey.keyText }}
+        {{ currentText }}
     </span>
 </template>
 <script lang="ts">
@@ -31,6 +30,11 @@ export default defineComponent({
         keyData: {
             type: Object as PropType<KeyPressInterface>,
             required: true,
+        },
+        /** 是否换挡 */
+        shift: {
+            type: Boolean,
+            default: false,
         },
     },
     setup(props, context) {
@@ -61,21 +65,28 @@ export default defineComponent({
             return style;
         });
 
-        const onClick = (ev) => {
-            const key = state.currentKey;
-            console.log('click', key.keyValue);
-        };
+        /** 按键文字 */
+        const currentText = computed(() => {
+            const currentKey = state.currentKey,
+                keyValue = currentKey.keyValue;
+            let text = currentKey.keyText;
+            if (!currentKey.special) {
+                if (props.shift) {
+                    return text.toUpperCase();
+                }
+            }
+            return text;
+        });
 
-        const onTouchstart = (ev) => {
+        const onTouchstart = () => {
             // 设置当前按键为激活状态
             state.isActive = true;
             const key = state.currentKey;
             console.log('onTouchstart', key.keyValue);
         };
 
-        const onTouchend = (ev) => {
+        const onTouchend = () => {
             const key = toRaw(state.currentKey);
-            console.log('onTouchend', ev.target);
 
             // 取消当前激活按键
             state.isActive = false;
@@ -111,7 +122,7 @@ export default defineComponent({
         return {
             ...toRefs(state),
             currentClasses,
-            onClick,
+            currentText,
             onTouchstart,
             onTouchend,
             onLongPress,

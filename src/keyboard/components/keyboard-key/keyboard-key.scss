@@ -14,24 +14,19 @@
         font-size: 18px;
         font-weight: normal;
     }
-    &-x {
+    &-roman10 {
         font-weight: normal;
         text-transform: lowercase;
     }
-    &-backspace {
-        &::before {
-            content: '⬅';
-            display: inline-block;
-            width: 34px;
-            height: 24px;
+    &-shift {
+        // shift换挡状态
+        &.shift {
+            color: #5580d8;
         }
     }
     &.active {
         background-color: #5580d8;
         color: #fff;
-        &.btn-backspace:before {
-            background-position: 0 -24px;
-        }
     }
 }
 

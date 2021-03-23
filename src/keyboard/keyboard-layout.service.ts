@@ -3,6 +3,7 @@ import {
     inlineNumericLayout,
     numericLayout,
     decimalLayout,
+    allLayout,
 } from './keyboard.layout';
 import { KeyInterface, KeyboardLayout } from './keyboard.model';
 
@@ -20,6 +21,8 @@ class KeyboardLayoutService {
             layout = this.getKeyArray(inlineNumericLayout, random);
         } else if (type === 'decimal') {
             layout = this.getKeyArray(decimalLayout, random);
+        } else if (type === 'all') {
+            layout = this.getKeyArray(allLayout, random);
         } else {
             layout = this.getKeyArray(numericLayout, random);
         }
@@ -60,7 +63,7 @@ class KeyboardLayoutService {
             case 'backspace':
                 // 删除键
                 isSpecial = true;
-                keyText = '';
+                keyText = '⬅';
                 keyValue = key;
                 break;
             case 'submit':
@@ -75,8 +78,15 @@ class KeyboardLayoutService {
                 keyText = '清空';
                 keyValue = key;
                 break;
-            case 'X':
-                // X键
+            case 'shift':
+                // 换挡键
+                isSpecial = true;
+                keyText = '⇧';
+                keyValue = key;
+                break;
+            case 'roman10':
+                // 罗马数字十
+                isSpecial = true;
                 keyText = 'X';
                 keyValue = key;
                 break;

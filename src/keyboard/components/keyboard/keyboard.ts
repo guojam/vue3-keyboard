@@ -67,32 +67,46 @@ export default defineComponent({
             wrapperRef: undefined as HTMLElement | undefined,
             /** 默认键盘布局 */
             layout: [] as KeyInterface[][],
+            shift: false,
         });
 
         /** 按键 */
         const onKeyPress = ($event: any) => {
             const key = $event.key,
                 type = $event.type;
-            console.log('onKeyPress:', key, type);
             if (key.special) {
                 // 功能键
-                if (key.keyValue === 'backspace') {
-                    // 删除input value
-                    inputDelete();
-                }
-                if (key.keyValue === 'clear') {
-                    // 清空键
-                    // 清空input value
-                    inputClear();
-                }
-                if (key.keyValue === 'submit') {
-                    // 完成键
-                    // 关闭键盘
-                    close();
+                switch (key.keyValue) {
+                    case 'backspace':
+                        // 删除input value
+                        inputDelete();
+                        break;
+                    case 'clear':
+                        // 清空input value
+                        inputClear();
+                        break;
+                    case 'submit':
+                        // 关闭键盘
+                        close();
+                        break;
+                    case 'roman10':
+                        // 罗马数字10
+                        inputAdd(key.keyText);
+                        break;
+                    case 'shift':
+                        // 换挡
+                        state.shift = !state.shift;
+                        break;
+                    default:
+                        break;
                 }
             } else {
-                // 数字键
-                inputAdd(key.keyValue);
+                // 非特殊键
+                if (state.shift) {
+                    inputAdd(key.keyValue.toUpperCase());
+                } else {
+                    inputAdd(key.keyValue);
+                }
             }
         };
 

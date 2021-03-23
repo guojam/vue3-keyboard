@@ -26,8 +26,10 @@
                                 :colspan="item.col"
                             >
                                 <app-keyboard-key
+                                    :shift="shift"
                                     :keyData="item.key"
                                     :class="[
+                                        shift ? 'shift' : '',
                                         'ui-keyboard-key',
                                         'ui-keyboard-key-' + item.key.keyValue,
                                     ]"

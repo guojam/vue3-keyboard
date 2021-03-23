@@ -3,7 +3,11 @@
         <form action="">
             <div class="form-item">
                 <label for="username">全键盘</label>
-                <app-keyboard-input name="username" id="username" />
+                <app-keyboard-input
+                    keyboard="all"
+                    name="username"
+                    id="username"
+                />
             </div>
             <div class="form-item">
                 <label for="username">身份证</label>

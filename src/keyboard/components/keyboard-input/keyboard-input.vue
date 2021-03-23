@@ -276,14 +276,14 @@ export default defineComponent({
 
         /** 调整页面空间 */
         const resizePage = () => {
-            if (!keyboardState.fillerContainer) {
-                if (keyboardState.keyboardContainer === 'body') {
+            let fillerContainer = toRaw(keyboardState.fillerContainer);
+            const keyboardContainer = toRaw(keyboardState.keyboardContainer);
+            if (!fillerContainer) {
+                if (keyboardContainer === 'body') {
                     keyboardState.fillerContainer = document.body;
                 } else {
                     keyboardState.fillerContainer = <HTMLElement>(
-                        document.body.querySelector(
-                            keyboardState.keyboardContainer
-                        )
+                        document.body.querySelector(keyboardContainer)
                     );
                 }
             }
