@@ -4,6 +4,7 @@
         @click="onClick"
         @touchstart="onTouchstart"
         @touchend.prevent="onTouchend"
+        @contextmenu.prevent
     >
         {{ currentKey.keyText }}
     </span>
