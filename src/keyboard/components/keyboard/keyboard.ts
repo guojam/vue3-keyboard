@@ -67,8 +67,6 @@ export default defineComponent({
             wrapperRef: undefined as HTMLElement | undefined,
             /** 默认键盘布局 */
             layout: [] as KeyInterface[][],
-            /** 删除键长按计时器 */
-            delTimeOut: null as number | null,
         });
 
         /** 按键 */
@@ -76,21 +74,11 @@ export default defineComponent({
             const key = $event.key,
                 type = $event.type;
             console.log('onKeyPress:', key, type);
-            // 清除长按删除
-            clearPressDel();
             if (key.special) {
                 // 功能键
                 if (key.keyValue === 'backspace') {
-                    // 删除键
-                    if (type === 'press') {
-                        // 长按
-                        // 设置长按删除
-                        setPressDel();
-                    } else {
-                        // 单次点击
-                        // 删除input value
-                        inputDelete();
-                    }
+                    // 删除input value
+                    inputDelete();
                 }
                 if (key.keyValue === 'clear') {
                     // 清空键
@@ -121,22 +109,6 @@ export default defineComponent({
         /**  添加字符 */
         const inputAdd = (value: string) => {
             context.emit('keyboard-input', { type: 'add', value });
-        };
-
-        /** 设置长按删除 */
-        const setPressDel = () => {
-            state.delTimeOut = setInterval(() => {
-                // 删除input value
-                inputDelete();
-            }, 100);
-        };
-
-        /** 清除长按删除 */
-        const clearPressDel = () => {
-            // 清除持续删除定时器
-            if (state.delTimeOut) {
-                clearInterval(state.delTimeOut);
-            }
         };
 
         /** 关闭键盘 */
