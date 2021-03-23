@@ -66,6 +66,8 @@
         text-align: center;
         width: 100%;
         border-style: hidden;
+        // 强制宽度平均分配
+        table-layout: fixed;
     }
     td {
         border: 1px solid #e5e5e5;
