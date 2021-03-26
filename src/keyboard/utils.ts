@@ -21,3 +21,14 @@ export const iosVer = () => {
     }
     return;
 };
+
+/** trigger focus input */
+export const focusInput = (input: HTMLInputElement) => {
+    const len = input.value.length;
+    if (isIOS) {
+        // ios下通过input click来触发focus弹出键盘
+        input.click();
+    }
+    input.focus();
+    input.setSelectionRange(len, len);
+};

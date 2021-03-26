@@ -23,7 +23,7 @@ import {
     toRaw,
 } from 'vue';
 import Keyboard from '../keyboard/keyboard.vue';
-import { isIOS } from '../../utils';
+import { isIOS, focusInput } from '../../utils';
 
 export default defineComponent({
     components: {
@@ -147,11 +147,13 @@ export default defineComponent({
             // 延时，避免点击穿透
             setTimeout(() => {
                 closeKeyboard();
-
                 // 移除input不做表单校验的标识
                 input.removeAttribute('novalidate');
-                // 如不是切换输入法，关闭时触发自定义的input blur事件
-                if (action !== 'changeIM') {
+                if (action === 'changeIM') {
+                    focusInput(input);
+                    keyboardState.hasChangeIM = true;
+                } else {
+                    // 如不是切换输入法，关闭时触发自定义的input blur事件
                     const blurEvent = new CustomEvent('keyboardInputBlur', {
                         detail: {
                             input,
@@ -160,11 +162,6 @@ export default defineComponent({
                     input.dispatchEvent(blurEvent);
                 }
             }, 50);
-            if (action === 'changeIM') {
-                // ios下通过input click来触发focus弹出键盘
-                input.click();
-                keyboardState.hasChangeIM = true;
-            }
         };
 
         const bindInputEvent = () => {
