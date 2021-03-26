@@ -308,13 +308,14 @@ export default defineComponent({
                 inputItem!.getClientRects()[0].bottom;
             if (bottomSpace < keyboardState.keyboardHeight) {
                 // 设置填充元素
-                keyboardState.filler = document.createElement('div');
-                // renderer.addClass(keyboardState.filler, 'ui-keyboard-container-filler');
-                container!.appendChild(keyboardState.filler);
-                keyboardState.filler.style.height =
-                    keyboardState.keyboardHeight - bottomSpace + 'px';
+                const filler = document.createElement('div');
+                filler.classList.add('ui-keyboard-container-filler');
+                container!.appendChild(filler);
+                const fillerHeight = keyboardState.keyboardHeight - bottomSpace;
+                filler.style.height = fillerHeight + 'px';
                 // 填充元素滚动到可视区域
-                keyboardState.filler!.scrollIntoView(false);
+                filler!.scrollIntoView(false);
+                keyboardState.filler = filler;
             }
         };
 

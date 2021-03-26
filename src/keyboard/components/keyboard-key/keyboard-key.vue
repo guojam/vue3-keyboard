@@ -1,8 +1,8 @@
 <template>
     <span
         :class="[{ active: isActive }, currentClasses]"
-        @[touchEvent.start].prevent="onTouchstart"
-        @[touchEvent.end].prevent="onTouchend"
+        @[touchEvent.start].stop="onTouchstart"
+        @[touchEvent.end].stop="onTouchend"
         @contextmenu.prevent
         v-keyboard-press="onLongPress"
     >

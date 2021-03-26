@@ -19,6 +19,7 @@ import { KeyInterface } from '../../keyboard.model';
 import KeyboardKey from '../keyboard-key/keyboard-key.vue';
 import keyboardLayoutService from '../../keyboard-layout.service';
 import { inputMethodsName } from '../../keyboard.layout';
+import { touchEvent } from '../../utils';
 
 export default defineComponent({
     components: { 'app-keyboard-key': KeyboardKey },
@@ -162,16 +163,14 @@ export default defineComponent({
 
         /** 订阅相关事件 */
         const subscribeEvent = () => {
-            console.log('document.addEventListener docClickHandler');
             // 监听body点击事件
-            document.addEventListener('click', docClickHandler);
+            document.addEventListener(touchEvent.start, docClickHandler);
         };
 
         /** 取消订阅相关事件 */
         const unsubscribeEvent = () => {
-            console.log('document.removeEventListener docClickHandler');
             // 移除body点击监听器
-            document.removeEventListener('click', docClickHandler);
+            document.removeEventListener(touchEvent.start, docClickHandler);
         };
 
         onMounted(() => {
