@@ -4,7 +4,6 @@
             <div class="form-item">
                 <label for="username">全键盘</label>
                 <app-keyboard-input
-                    keyboard="all"
                     inputMethod="all, num, system"
                     name="username"
                     id="username"
@@ -12,12 +11,16 @@
             </div>
             <div class="form-item">
                 <label for="username">身份证</label>
-                <app-keyboard-input keyboard="id" name="idcard" id="idcard" />
+                <app-keyboard-input
+                    inputMethod="id"
+                    name="idcard"
+                    id="idcard"
+                />
             </div>
             <div class="form-item">
                 <label for="number">数字</label>
                 <app-keyboard-input
-                    inputMethod="system"
+                    inputMethod="num, system"
                     name="number"
                     id="number"
                 />
@@ -25,7 +28,7 @@
             <div class="form-item">
                 <label for="password">密码</label>
                 <app-keyboard-input
-                    keyboard="inline-num"
+                    inputMethod="inline-num"
                     type="password"
                     name="password"
                     id="password"

@@ -2,8 +2,7 @@
     <input :type="inputType" :name="inputName" :id="inputId" ref="inputRef" />
     <teleport to="body" v-if="keyboardState.isOpened">
         <app-keyboard
-            :inputMethod="inputMethod"
-            :type="keyboardType"
+            :inputMethods="inputMethods"
             @keyboard-open="onKeyboardOpen"
             @keyboard-close="onKeyboardClose"
             @keyboard-input="onKeyboardInput"
@@ -37,10 +36,6 @@ export default defineComponent({
             type: String,
             default: 'text',
         },
-        keyboard: {
-            type: String,
-            default: 'num',
-        },
         inputMethod: {
             type: String,
             default: 'num',
@@ -53,8 +48,10 @@ export default defineComponent({
             inputName: props.name,
             inputType: props.type,
             inputId: props.id,
-            /** 键盘类型，默认数字键盘'num'，证件键盘'id' */
-            keyboardType: props.keyboard,
+            /** 可选键盘类型 */
+            inputMethods: props.inputMethod
+                .split(',')
+                .map((value) => value.trim()),
         });
 
         const keyboardState = reactive({

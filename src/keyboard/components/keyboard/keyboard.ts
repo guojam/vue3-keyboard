@@ -11,6 +11,7 @@ import {
     onDeactivated,
     onErrorCaptured,
     reactive,
+    PropType,
     toRaw,
     shallowRef,
     toRefs,
@@ -24,12 +25,6 @@ import { touchEvent } from '../../utils';
 export default defineComponent({
     components: { 'app-keyboard-key': KeyboardKey },
     props: {
-        /** 键盘类型，默认数字键盘'num'，证件键盘'id' */
-        type: {
-            type: String,
-            default: 'num',
-        },
-
         /** 键位是否随机排序 */
         random: {
             type: Boolean,
@@ -46,9 +41,9 @@ export default defineComponent({
         },
 
         /** 可切换的输入法 */
-        inputMethod: {
-            type: String,
-            default: '',
+        inputMethods: {
+            type: Array as PropType<string[]>,
+            required: true,
         },
 
         /** 键盘容器样式名 */
@@ -72,11 +67,10 @@ export default defineComponent({
             layout: [] as KeyInterface[][],
             shift: false,
             /** 当前输入法 */
-            currentMethod: props.type,
-            inputMethods: props.inputMethod
-                .split(',')
-                .map((value) => value.trim()),
+            currentMethod: props.inputMethods![0],
             inputMethodsName,
+            /** 触摸事件 */
+            touchEvent,
         });
 
         /** 按键 */
@@ -145,6 +139,7 @@ export default defineComponent({
                 // 切换到原生输入法
                 context.emit('keyboard-close', 'changeIM');
             } else {
+                console.log('修改键盘:', method);
                 // 修改键盘
                 state.currentMethod = method;
                 initLayout(method, props.random);
@@ -158,8 +153,6 @@ export default defineComponent({
 
         /** 点击文档事件 */
         const docClickHandler = (event: Event) => {
-            console.log('docClickHandler, event target:');
-            console.log(event.target);
             context.emit('keyboard-doc-click', event.target);
         };
 

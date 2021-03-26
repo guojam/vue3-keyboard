@@ -1,12 +1,12 @@
 <template>
     <div class="ui-keyboard-wrapper" ref="wrapperRef" @click.stop>
-        <div :class="['ui-keyboard', type]">
+        <div :class="['ui-keyboard', currentMethod]">
             <div class="ui-keyboard-top">
                 <div class="ui-keyboard-title">安全键盘</div>
                 <span
                     v-if="closeAble"
                     class="ui-keyboard-close"
-                    @click="close()"
+                    @[touchEvent.end].stop="close()"
                 ></span>
 
                 <span v-if="inputMethods.length" class="ui-keyboard-methods">
@@ -16,7 +16,7 @@
                     >
                         <a
                             v-if="item !== currentMethod"
-                            @click="changeInputMethod(item)"
+                            @[touchEvent.end].stop="changeInputMethod(item)"
                         >
                             {{ inputMethodsName[item] }}
                         </a></template
