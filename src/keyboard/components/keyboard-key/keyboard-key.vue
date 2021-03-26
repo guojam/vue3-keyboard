@@ -1,6 +1,6 @@
 <template>
     <span
-        :class="[{ active: isActive }, currentClasses]"
+        :class="[currentClasses]"
         @[touchEvent.start].stop="onTouchstart"
         @[touchEvent.end].stop="onTouchend"
         @contextmenu.prevent
@@ -42,8 +42,6 @@ export default defineComponent({
         const state = reactive({
             /** 当前按键对象 */
             currentKey: props.keyData,
-            /** 是否激活 */
-            isActive: false,
             /** 删除键被长按 */
             delIsPressed: false,
             /** 触摸事件 */
@@ -78,16 +76,11 @@ export default defineComponent({
         });
 
         const onTouchstart = () => {
-            // 设置当前按键为激活状态
-            state.isActive = true;
             const key = state.currentKey;
         };
 
         const onTouchend = () => {
             const key = toRaw(state.currentKey);
-
-            // 取消当前激活按键
-            state.isActive = false;
 
             // 如已长按删除键
             if (state.delIsPressed) {
