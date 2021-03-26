@@ -5,6 +5,7 @@
                 <label for="username">全键盘</label>
                 <app-keyboard-input
                     keyboard="all"
+                    inputMethod="all, num, system"
                     name="username"
                     id="username"
                 />
@@ -16,9 +17,9 @@
             <div class="form-item">
                 <label for="number">数字</label>
                 <app-keyboard-input
+                    inputMethod="system"
                     name="number"
                     id="number"
-                    :switchAble="true"
                 />
             </div>
             <div class="form-item">

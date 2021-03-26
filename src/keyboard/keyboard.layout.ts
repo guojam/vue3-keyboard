@@ -43,3 +43,9 @@ export const allLayout: KeyboardLayout = [
     ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'backspace'],
     ['shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'submit:2:1'],
 ];
+
+export const inputMethodsName = {
+    all: '字母',
+    num: '数字',
+    system: '系统输入法',
+};

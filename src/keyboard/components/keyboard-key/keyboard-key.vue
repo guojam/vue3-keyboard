@@ -1,8 +1,8 @@
 <template>
     <span
         :class="[{ active: isActive }, currentClasses]"
-        @touchstart="onTouchstart"
-        @touchend.prevent="onTouchend"
+        @[touchEvent.start].prevent="onTouchstart"
+        @[touchEvent.end].prevent="onTouchend"
         @contextmenu.prevent
         v-keyboard-press="onLongPress"
     >
@@ -20,6 +20,7 @@ import {
 } from 'vue';
 import { KeyInterface, KeyPressInterface } from '../../keyboard.model';
 import longpressDirective from '../../directives/longpress.directive';
+import { touchEvent } from '../../utils';
 export default defineComponent({
     name: 'app-keyboard-key',
     directives: {
@@ -43,12 +44,10 @@ export default defineComponent({
             currentKey: props.keyData,
             /** 是否激活 */
             isActive: false,
-
             /** 删除键被长按 */
             delIsPressed: false,
-
-            /** 当前按键element */
-            // keyEl: HTMLElement,
+            /** 触摸事件 */
+            touchEvent,
         });
 
         /** 按键样式 */
@@ -82,7 +81,6 @@ export default defineComponent({
             // 设置当前按键为激活状态
             state.isActive = true;
             const key = state.currentKey;
-            console.log('onTouchstart', key.keyValue);
         };
 
         const onTouchend = () => {
@@ -107,7 +105,6 @@ export default defineComponent({
         const onLongPress = () => {
             const key = toRaw(state.currentKey);
             const keyValue = state.currentKey.keyValue;
-            console.log(keyValue + '被长按');
             if (keyValue === 'backspace') {
                 // 标识删除按键被长按，在touchend触发时如有该标识，不再次执行删除
                 state.delIsPressed = true;

@@ -1,3 +1,5 @@
+import { touchEvent } from '../utils';
+
 const longpressDirective = {
     beforeMount(el: Element, binding: any, vNode: any) {
         // 定义变量
@@ -34,11 +36,10 @@ const longpressDirective = {
         };
 
         // 添加事件监听器
-        el.addEventListener('touchstart', start);
+        el.addEventListener(touchEvent.start, start);
 
         // 取消计时器
-        el.addEventListener('touchend', cancel);
-        // el.addEventListener('touchcancel', cancel);
+        el.addEventListener(touchEvent.end, cancel);
     },
 };
 

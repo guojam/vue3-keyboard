@@ -17,6 +17,7 @@ import {
 import { KeyInterface } from '../../keyboard.model';
 import KeyboardKey from '../keyboard-key/keyboard-key.vue';
 import keyboardLayoutService from '../../keyboard-layout.service';
+import { inputMethodsName } from '../../keyboard.layout';
 
 export default defineComponent({
     components: { 'app-keyboard-key': KeyboardKey },
@@ -42,10 +43,10 @@ export default defineComponent({
             default: false,
         },
 
-        /** 显示切换输入法按钮 */
-        switchAble: {
-            type: Boolean,
-            default: false,
+        /** 可切换的输入法 */
+        inputMethod: {
+            type: String,
+            default: '',
         },
 
         /** 键盘容器样式名 */
@@ -68,6 +69,12 @@ export default defineComponent({
             /** 默认键盘布局 */
             layout: [] as KeyInterface[][],
             shift: false,
+            /** 当前输入法 */
+            currentMethod: props.type,
+            inputMethods: props.inputMethod
+                .split(',')
+                .map((value) => value.trim()),
+            inputMethodsName,
         });
 
         /** 按键 */
@@ -131,16 +138,20 @@ export default defineComponent({
         };
 
         /** 切换输入法 */
-        const changeInputMethod = () => {
-            context.emit('keyboard-close', 'changeIM');
+        const changeInputMethod = (method: string) => {
+            if (method === 'system') {
+                // 切换到原生输入法
+                context.emit('keyboard-close', 'changeIM');
+            } else {
+                // 修改键盘
+                state.currentMethod = method;
+                initLayout(method, props.random);
+            }
         };
 
         /** 初始化键盘布局 */
-        const initLayout = () => {
-            state.layout = keyboardLayoutService.getLayout(
-                props.type,
-                props.random
-            );
+        const initLayout = (type: string, random?: boolean) => {
+            state.layout = keyboardLayoutService.getLayout(type, random);
         };
 
         /** 点击文档事件 */
@@ -164,7 +175,7 @@ export default defineComponent({
 
         onMounted(() => {
             // 初始化键盘布局
-            initLayout();
+            initLayout(state.currentMethod, props.random);
             subscribeEvent();
             const wrapper = state.wrapperRef;
             // 弹射键盘打开事件

@@ -8,12 +8,20 @@
                     class="ui-keyboard-close"
                     @click="close()"
                 ></span>
-                <span
-                    v-if="switchAble"
-                    class="ui-keyboard-switch"
-                    @click="changeInputMethod()"
-                    >切换输入法</span
-                >
+
+                <span v-if="inputMethods.length" class="ui-keyboard-methods">
+                    <template
+                        v-for="(item, index) in inputMethods"
+                        :key="index"
+                    >
+                        <a
+                            v-if="item !== currentMethod"
+                            @click="changeInputMethod(item)"
+                        >
+                            {{ inputMethodsName[item] }}
+                        </a></template
+                    >
+                </span>
             </div>
             <div class="ui-keyboard-pane">
                 <table border="0" cellspacing="0" cellpadding="0">
@@ -21,7 +29,7 @@
                         <tr v-for="(row, index) in layout" :key="row.index">
                             <td
                                 v-for="item in row"
-                                :key="item.id"
+                                :key="item.key.keyValue"
                                 :rowspan="item.row"
                                 :colspan="item.col"
                             >

@@ -12,7 +12,7 @@ import { KeyInterface, KeyboardLayout } from './keyboard.model';
  */
 class KeyboardLayoutService {
     /** 获取键盘布局 */
-    getLayout(type: string, random: boolean) {
+    getLayout(type: string, random?: boolean) {
         let layout: KeyInterface[][];
         // 获取键盘按键数据
         if (type === 'id') {

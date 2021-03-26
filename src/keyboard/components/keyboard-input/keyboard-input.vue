@@ -2,8 +2,8 @@
     <input :type="inputType" :name="inputName" :id="inputId" ref="inputRef" />
     <teleport to="body" v-if="keyboardState.isOpened">
         <app-keyboard
+            :inputMethod="inputMethod"
             :type="keyboardType"
-            :switchAble="switchAble"
             @keyboard-open="onKeyboardOpen"
             @keyboard-close="onKeyboardClose"
             @keyboard-input="onKeyboardInput"
@@ -40,7 +40,10 @@ export default defineComponent({
             type: String,
             default: 'num',
         },
-        switchAble: false,
+        inputMethod: {
+            type: String,
+            default: '',
+        },
     },
     setup(props) {
         const showKeyboard = ref(false);

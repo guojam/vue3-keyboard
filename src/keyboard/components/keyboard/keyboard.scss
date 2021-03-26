@@ -52,13 +52,19 @@
         }
     }
     // 切换输入法
-    &-switch {
+    &-methods {
         position: absolute;
         left: 0;
         top: 0;
-        padding: 14px 15px;
-        font-size: 12px;
-        color: #2e6dd6;
+        padding: 0 15px;
+        a {
+            line-height: 30px;
+            font-size: 12px;
+            color: #42b983;
+            & + a {
+                margin-left: 10px;
+            }
+        }
     }
     //
     table {
@@ -71,24 +77,6 @@
     }
     td {
         border: 1px solid #e5e5e5;
-    }
-    // 数字键盘
-    &.num,
-    &.decimal {
-        td {
-            width: 25%;
-        }
-        &-simple {
-            td {
-                width: 33%;
-            }
-        }
-    }
-    // 证件键盘
-    &.id {
-        td {
-            width: 25%;
-        }
     }
 }
 
