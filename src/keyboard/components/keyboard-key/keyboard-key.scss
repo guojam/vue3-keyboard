@@ -3,12 +3,14 @@
  */
 
 .btn {
-    display: block;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 28px;
     color: #666;
     font-weight: bold;
     height: 54px;
-    line-height: 52px;
     &-clear,
     &-submit {
         font-size: 18px;
@@ -38,7 +40,6 @@
         &-backspace,
         &-submit {
             height: 109px;
-            line-height: 109px;
         }
         &-backspace {
             position: relative;

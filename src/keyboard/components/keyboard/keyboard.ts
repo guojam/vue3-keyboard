@@ -83,9 +83,10 @@ export default defineComponent({
         const onKeyPress = ($event: any) => {
             const key = $event.key,
                 type = $event.type;
+            let value = key.keyValue;
             if (key.special) {
                 // 功能键
-                switch (key.keyValue) {
+                switch (value) {
                     case 'backspace':
                         // 删除input value
                         inputDelete();
@@ -112,10 +113,9 @@ export default defineComponent({
             } else {
                 // 非特殊键
                 if (state.shift) {
-                    inputAdd(key.keyValue.toUpperCase());
-                } else {
-                    inputAdd(key.keyValue);
+                    value = value.toUpperCase();
                 }
+                inputAdd(value);
             }
         };
 
@@ -158,19 +158,21 @@ export default defineComponent({
 
         /** 点击文档事件 */
         const docClickHandler = (event: Event) => {
+            console.log('docClickHandler, event target:');
+            console.log(event.target);
             context.emit('keyboard-doc-click', event.target);
         };
 
         /** 订阅相关事件 */
         const subscribeEvent = () => {
             // 监听body点击事件
-            document.addEventListener(touchEvent.start, docClickHandler);
+            document.addEventListener(touchEvent.end, docClickHandler);
         };
 
         /** 取消订阅相关事件 */
         const unsubscribeEvent = () => {
             // 移除body点击监听器
-            document.removeEventListener(touchEvent.start, docClickHandler);
+            document.removeEventListener(touchEvent.end, docClickHandler);
         };
 
         onMounted(() => {
@@ -191,7 +193,6 @@ export default defineComponent({
         });
 
         onBeforeUnmount(() => {
-            console.log('onBeforeUnmount');
             unsubscribeEvent();
         });
 

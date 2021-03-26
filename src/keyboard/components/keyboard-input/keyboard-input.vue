@@ -171,14 +171,12 @@ export default defineComponent({
         };
 
         const bindInputEvent = () => {
-            console.log('bindInputEvent');
             const input = state.inputRef;
             input.addEventListener('focus', inputOnFocus);
             input.addEventListener('blur', inputOnBlur);
         };
 
         const unbindInputEvent = () => {
-            console.log('unbindInputEvent');
             const input = state.inputRef;
             input.removeEventListener('focus', inputOnFocus);
             input.removeEventListener('blur', inputOnBlur);

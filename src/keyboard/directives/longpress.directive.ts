@@ -40,6 +40,8 @@ const longpressDirective = {
 
         // 取消计时器
         el.addEventListener(touchEvent.end, cancel);
+        el.addEventListener('touchcancel', cancel);
+        el.addEventListener('mouseleave', cancel);
     },
 };
 
