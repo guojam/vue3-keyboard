@@ -5,3 +5,19 @@ export const touchEvent = {
     move: hasTouchEvent ? 'touchmove' : 'mousemove',
     end: hasTouchEvent ? 'touchend' : 'mouseup',
 };
+
+const getIOSInfo = () => {
+    return window.navigator.userAgent
+        .toLowerCase()
+        .match(/cpu iphone os (.*?) like mac os/);
+};
+
+export const isIOS = !!getIOSInfo();
+
+export const iosVer = () => {
+    const iosInfo = getIOSInfo();
+    if (iosInfo) {
+        return iosInfo[1].replace(/_/g, '.');
+    }
+    return;
+};

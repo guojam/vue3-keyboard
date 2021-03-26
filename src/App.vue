@@ -62,7 +62,10 @@ export default defineComponent({
     margin: 20px 0;
 }
 .form-item label {
-    display: block;
+    display: inline-block;
+    width: 60px;
+    margin-right: 10px;
+    text-align: right;
 }
 .form-item input {
 }

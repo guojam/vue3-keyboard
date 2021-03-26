@@ -24,6 +24,7 @@ import {
     toRaw,
 } from 'vue';
 import Keyboard from '../keyboard/keyboard.vue';
+import { isIOS } from '../../utils';
 
 export default defineComponent({
     components: {
@@ -42,7 +43,7 @@ export default defineComponent({
         },
         inputMethod: {
             type: String,
-            default: '',
+            default: 'num',
         },
     },
     setup(props) {
@@ -90,10 +91,7 @@ export default defineComponent({
                 // 避免显示默认键盘
                 input.blur();
 
-                const iosVer = window.navigator.userAgent
-                    .toLowerCase()
-                    .match(/cpu iphone os (.*?) like mac os/);
-                if (iosVer) {
+                if (isIOS) {
                     // ios11版本密码键盘延时出现，为兼容系统键盘收起较慢，系统键盘收起过程中造成密码键盘位置往上偏移
                     setTimeout(() => {
                         openKeyboard();
@@ -335,10 +333,7 @@ export default defineComponent({
             let width;
 
             if (input.type === 'password') {
-                const isIos = !!window.navigator.userAgent.match(
-                        /\(i[^;]+;(U;)? CPU.+Mac OS X/
-                    ),
-                    dotWidth = isIos ? 10 : 6; // 密码圆点宽度
+                const dotWidth = isIOS ? 10 : 6; // 密码圆点宽度
                 width = input.value.length * dotWidth;
             } else {
                 const inputStyles: any = window.getComputedStyle(input, null);

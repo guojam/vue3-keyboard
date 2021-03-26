@@ -1,5 +1,6 @@
 import {
     defineComponent,
+    nextTick,
     onBeforeMount,
     onMounted,
     onBeforeUpdate,
@@ -180,8 +181,12 @@ export default defineComponent({
             const wrapper = state.wrapperRef;
             // 弹射键盘打开事件
             if (wrapper) {
-                context.emit('keyboard-open', {
-                    height: wrapper.offsetHeight, // 键盘高度
+                nextTick(() => {
+                    // 键盘高度
+                    const height = wrapper.offsetHeight;
+                    context.emit('keyboard-open', {
+                        height,
+                    });
                 });
             }
         });
