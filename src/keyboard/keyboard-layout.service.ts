@@ -20,7 +20,10 @@ const layoutArrayMap = new Map([
  */
 class KeyboardLayoutService {
     /** 获取键盘布局 */
-    getLayout(type: string, random = false): KeyInterface[][] {
+    getLayout(
+        type: string,
+        random = false
+    ): { rowNum: number; colNum: number; layout: KeyInterface[][] } {
         const layoutArray = layoutArrayMap.get(type);
         // 获取键盘按键数据
         let randomKey: string[];
@@ -32,14 +35,22 @@ class KeyboardLayoutService {
             const keyArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
             randomKey = this.getRandomArray(keyArray);
         }
+        let rowNum = layoutArray!.length,
+            colNum = 0;
         // 将键盘布局数组转换为对应的按键数组
-        return layoutArray!.map((row: string[]): KeyInterface[] => {
+        let layout = layoutArray!.map((row: string[]): KeyInterface[] => {
+            colNum = Math.max(colNum, row.length);
             return row.map(
                 (keyStr: string): KeyInterface => {
                     return this.getKeyData(keyStr, randomKey);
                 }
             );
         });
+        return {
+            rowNum,
+            colNum,
+            layout,
+        };
     }
 
     /** 获取键盘布局对应的按键数据 */

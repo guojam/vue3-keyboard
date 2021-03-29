@@ -9,7 +9,7 @@ import {
 } from 'vue';
 import keyboardLayoutService from '../../keyboard-layout.service';
 import { inputMethodsName } from '../../keyboard.layout';
-import { KeyInterface } from '../../keyboard.model';
+import { KeyInterface, KeyPressInterface } from '../../keyboard.model';
 import { touchEvent } from '../../utils';
 import KeyboardKey from '../keyboard-key/keyboard-key.vue';
 
@@ -46,6 +46,8 @@ export default defineComponent({
             wrapperRef: undefined as HTMLElement | undefined,
             /** 默认键盘布局 */
             layout: [] as KeyInterface[][],
+            // grid容器样式
+            gridStyle: {},
             shift: false,
             /** 当前输入法 */
             currentMethod: props.inputMethods![0],
@@ -55,7 +57,10 @@ export default defineComponent({
         });
 
         /** 按键 */
-        const onKeyPress = ($event: any) => {
+        const onKeyPress = ($event: {
+            key: KeyPressInterface;
+            type: string;
+        }) => {
             const key = $event.key,
                 type = $event.type;
             let value = key.keyValue;
@@ -86,11 +91,13 @@ export default defineComponent({
                         break;
                 }
             } else {
-                // 非特殊键
-                if (state.shift) {
-                    value = value.toUpperCase();
+                if (value) {
+                    // 非特殊键
+                    if (state.shift) {
+                        value = value.toUpperCase();
+                    }
+                    inputAdd(value);
                 }
-                inputAdd(value);
             }
         };
 
@@ -128,7 +135,14 @@ export default defineComponent({
 
         /** 初始化键盘布局 */
         const initLayout = (type: string, random?: boolean) => {
-            state.layout = keyboardLayoutService.getLayout(type, random);
+            const { layout, rowNum, colNum } = keyboardLayoutService.getLayout(
+                type,
+                random
+            );
+            state.layout = layout;
+            state.gridStyle = {
+                'grid-template-columns': '1fr '.repeat(colNum),
+            };
         };
 
         /** 点击文档事件 */

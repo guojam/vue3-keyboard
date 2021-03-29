@@ -1,5 +1,5 @@
 <template>
-    <div class="ui-keyboard-wrapper" ref="wrapperRef" @click.stop>
+    <div class="ui-keyboard-wrapper" ref="wrapperRef" @[touchEvent.end].stop>
         <div :class="['ui-keyboard', currentMethod]">
             <div class="ui-keyboard-top">
                 <div class="ui-keyboard-title">安全键盘</div>
@@ -24,29 +24,35 @@
                 </span>
             </div>
             <div class="ui-keyboard-pane">
-                <table border="0" cellspacing="0" cellpadding="0">
-                    <tbody>
-                        <tr v-for="(row, index) in layout" :key="row.index">
-                            <td
-                                v-for="item in row"
-                                :key="item.key.keyValue"
-                                :rowspan="item.row"
-                                :colspan="item.col"
-                            >
-                                <app-keyboard-key
-                                    :shift="shift"
-                                    :keyData="item.key"
-                                    :class="[
-                                        shift ? 'shift' : '',
-                                        'ui-keyboard-key',
-                                        'ui-keyboard-key-' + item.key.keyValue,
-                                    ]"
-                                    @key-press="onKeyPress($event)"
-                                ></app-keyboard-key>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="ui-keyboard-grid" :style="gridStyle">
+                    <template
+                        v-for="(row, rowIndex) in layout"
+                        :key="row.index"
+                    >
+                        <div
+                            class="ui-keyboard-grid-cell"
+                            v-for="(item, colIndex) in row"
+                            :key="item.key.keyValue"
+                            :style="{
+                                'grid-column-start': 1 + colIndex,
+                                'grid-column-end': 1 + item.col + colIndex,
+                                'grid-row-start': 1 + rowIndex,
+                                'grid-row-end': 1 + item.row + rowIndex,
+                            }"
+                        >
+                            <app-keyboard-key
+                                :shift="shift"
+                                :keyData="item.key"
+                                :class="[
+                                    shift ? 'shift' : '',
+                                    'ui-keyboard-key',
+                                    'ui-keyboard-key-' + item.key.keyValue,
+                                ]"
+                                @key-press="onKeyPress($event)"
+                            ></app-keyboard-key>
+                        </div>
+                    </template>
+                </div>
             </div>
         </div>
     </div>

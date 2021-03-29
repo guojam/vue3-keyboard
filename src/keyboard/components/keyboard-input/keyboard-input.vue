@@ -1,5 +1,11 @@
 <template>
-    <input :type="inputType" :name="inputName" :id="inputId" ref="inputRef" />
+    <input
+        :type="inputType"
+        :name="inputName"
+        :id="inputId"
+        ref="inputRef"
+        :class="{ focus: keyboardState.isOpened }"
+    />
     <teleport to="body" v-if="keyboardState.isOpened">
         <app-keyboard
             :inputMethods="inputMethods"
@@ -293,3 +299,10 @@ export default defineComponent({
     },
 });
 </script>
+<style lang="scss" scoped>
+input {
+    &.focus {
+        border-color: blue;
+    }
+}
+</style>

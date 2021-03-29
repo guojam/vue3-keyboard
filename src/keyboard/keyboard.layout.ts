@@ -9,7 +9,7 @@ export const numericLayout: KeyboardLayout = [
     ['1', '2', '3', 'backspace:1:2'],
     ['4', '5', '6'],
     ['7', '8', '9', 'submit:1:2'],
-    ['clear', '0'],
+    ['clear', '0', ''],
 ];
 
 /** 数字键盘布局带小数点 - 带完成按钮 */

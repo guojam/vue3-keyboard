@@ -66,17 +66,17 @@
             }
         }
     }
-    //
-    table {
-        border-collapse: collapse;
-        text-align: center;
-        width: 100%;
-        border-style: hidden;
-        // 强制宽度平均分配
-        table-layout: fixed;
+    .ui-keyboard-grid {
+        display: grid;
+        grid-row-gap: 1px;
+        grid-column-gap: 1px;
+        background-color: #e5e5e5;
     }
-    td {
-        border: 1px solid #e5e5e5;
+    .ui-keyboard-grid-cell {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fff;
     }
 }
 
