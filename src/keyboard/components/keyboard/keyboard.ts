@@ -69,11 +69,11 @@ export default defineComponent({
                 switch (value) {
                     case 'backspace':
                         // 删除input value
-                        inputDelete();
+                        context.emit('keyboard-input', { type: 'delete' });
                         break;
                     case 'clear':
                         // 清空input value
-                        inputClear();
+                        context.emit('keyboard-input', { type: 'clear' });
                         break;
                     case 'submit':
                         // 关闭键盘
@@ -99,16 +99,6 @@ export default defineComponent({
                     inputAdd(value);
                 }
             }
-        };
-
-        /** 清空字符 */
-        const inputClear = () => {
-            context.emit('keyboard-input', { type: 'clear' });
-        };
-
-        /** 删除字符 */
-        const inputDelete = () => {
-            context.emit('keyboard-input', { type: 'delete' });
         };
 
         /**  添加字符 */

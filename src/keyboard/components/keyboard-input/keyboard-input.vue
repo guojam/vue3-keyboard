@@ -186,7 +186,7 @@ export default defineComponent({
             } else if (type === 'delete') {
                 input.value = inputDelete(input.value);
             } else if (type === 'clear') {
-                input.value = inputClear();
+                input.value = '';
             }
         };
 
@@ -199,11 +199,6 @@ export default defineComponent({
                 // ios下通过input click来触发focus弹出键盘
                 input.focus();
             }
-        };
-
-        /** 清空字符 */
-        const inputClear = () => {
-            return '';
         };
 
         /** 删除字符 */
