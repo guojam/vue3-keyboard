@@ -1,10 +1,9 @@
 import { touchEvent } from '../utils';
 
 const longpressDirective = {
-    beforeMount(el: Element, binding: any, vNode: any) {
+    beforeMount(el: Element, binding: any) {
         // 定义变量
-        let pressTimer: any = null,
-            pressInterval: any = null;
+        let pressTimer: number | undefined, pressInterval: number | undefined;
 
         // 默认延迟700ms
         const delay = 700;
@@ -12,7 +11,7 @@ const longpressDirective = {
         const interval = 100;
 
         const start = () => {
-            if (pressTimer === null) {
+            if (pressTimer === undefined) {
                 pressTimer = setTimeout(handler, delay);
             }
         };
@@ -20,13 +19,13 @@ const longpressDirective = {
         // 取消计时器
         const cancel = () => {
             // 检查计时器是否有值
-            if (pressTimer !== null) {
+            if (pressTimer !== undefined) {
                 clearTimeout(pressTimer);
-                pressTimer = null;
+                pressTimer = undefined;
             }
-            if (pressInterval !== null) {
+            if (pressInterval !== undefined) {
                 clearInterval(pressInterval);
-                pressInterval = null;
+                pressInterval = undefined;
             }
         };
 

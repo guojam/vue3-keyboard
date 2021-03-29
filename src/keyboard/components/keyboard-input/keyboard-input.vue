@@ -132,7 +132,7 @@ export default defineComponent({
         };
 
         /** 键盘打开事件 */
-        const onKeyboardOpen = ($event: any) => {
+        const onKeyboardOpen = ($event) => {
             // 获取键盘高度
             keyboardState.keyboardHeight = $event.height;
             // 调整页面空间

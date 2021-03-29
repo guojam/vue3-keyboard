@@ -54,7 +54,7 @@ class KeyboardLayoutService {
     }
 
     /** 获取键盘布局对应的按键数据 */
-    private getKeyData(keyStr: string, randomKey?: any[]): KeyInterface {
+    private getKeyData(keyStr: string, randomKey: string[]): KeyInterface {
         const keyConfig = keyStr.split(':'),
             key = keyConfig[0],
             col = keyConfig[1] ? parseInt(keyConfig[1], 10) : 1,
