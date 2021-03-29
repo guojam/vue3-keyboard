@@ -58,14 +58,10 @@ export default defineComponent({
             keyboardRandom: false,
             /** 显示关闭按钮 */
             keyboardCloseAble: false,
-            /** 显示虚拟光标 */
-            keyboardCaret: false,
             /** 该容器用于放置填充元素，当input下方无足够空间显示键盘时需在该容器内填入元素。默认为body */
             keyboardContainer: 'body',
             /** 键盘是否打开 */
             isOpened: false,
-            /** 光标 */
-            caret: undefined,
             /** 是否切换到系统输入法 */
             hasChangeIM: false,
             /** 填充元素，用于input下方空间不够时撑起高度 */
@@ -111,8 +107,6 @@ export default defineComponent({
             if (!keyboardState.isOpened) {
                 // 创建键盘
                 keyboardState.isOpened = true;
-                // 设置光标
-                // setCaret();
             }
         };
 
@@ -121,8 +115,6 @@ export default defineComponent({
             if (keyboardState.isOpened) {
                 //  销毁键盘组件
                 keyboardState.isOpened = false;
-                // 移除光标
-                // removeCaret();
                 // 调整页面空间
                 resizePage();
             }
@@ -226,44 +218,6 @@ export default defineComponent({
             return value;
         };
 
-        /** 设置输入框光标 */
-        const setCaret = () => {
-            if (!keyboardState.keyboardCaret) {
-                return;
-            }
-            const input = state.inputRef,
-                inputStyles: any = window.getComputedStyle(input, null);
-            let caret = keyboardState.caret;
-            if (!caret) {
-                caret = document.createElement('div');
-                // renderer.addClass(caret, 'ui-keyboard-caret');
-                const parent = input.parentNode;
-                parent!.appendChild(caret);
-                caret.style.height =
-                    parseInt(inputStyles['font-size'], 10) + 2 + 'px';
-            }
-            if (inputStyles['text-align'] === 'right') {
-                // 输入框文字右对齐
-                caret.style.right = '0';
-            } else {
-                // 获取输入的文本宽度
-                const textWidth = getTextWidth(input);
-                caret.style.left = textWidth + 'px';
-            }
-
-            keyboardState.caret = caret;
-        };
-
-        /** 移除输入框光标 */
-        const removeCaret = () => {
-            if (keyboardState.caret) {
-                keyboardState.caret.parentNode!.removeChild(
-                    keyboardState.caret
-                );
-                keyboardState.caret = undefined;
-            }
-        };
-
         /** 调整页面空间 */
         const resizePage = () => {
             let fillerContainer = toRaw(keyboardState.fillerContainer);
@@ -316,42 +270,6 @@ export default defineComponent({
                 );
                 keyboardState.filler = undefined;
             }
-        };
-
-        /** 获取input输入内容的宽度 */
-        const getTextWidth = (input: HTMLInputElement) => {
-            let width;
-
-            if (input.type === 'password') {
-                const dotWidth = isIOS ? 10 : 6; // 密码圆点宽度
-                width = input.value.length * dotWidth;
-            } else {
-                const inputStyles: any = window.getComputedStyle(input, null);
-                // 生成dom元素，插入input文本并设置对应样式以获取宽度
-                const fakeInput = document.createElement('div'),
-                    styles = [
-                        'font-size',
-                        'font-family',
-                        'font-style',
-                        'font-weight',
-                        'letter-spacing',
-                        'text-indent',
-                    ];
-                styles.map((value: any) => {
-                    fakeInput.style[value] = inputStyles[value];
-                });
-                fakeInput.style.position = 'absolute';
-                fakeInput.style.float = 'left';
-                fakeInput.style.visibility = 'hidden';
-                fakeInput.style.whiteSpace = 'nowrap';
-
-                const textContent = document.createTextNode(input.value);
-                fakeInput.appendChild(textContent);
-                document.body.appendChild(fakeInput);
-                width = fakeInput.offsetWidth;
-                document.body.removeChild(fakeInput);
-            }
-            return width;
         };
 
         onMounted(() => {
