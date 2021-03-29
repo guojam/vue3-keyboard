@@ -1,26 +1,17 @@
 import {
     defineComponent,
     nextTick,
-    onBeforeMount,
-    onMounted,
-    onBeforeUpdate,
-    onUpdated,
     onBeforeUnmount,
-    onUnmounted,
-    onActivated,
-    onDeactivated,
-    onErrorCaptured,
-    reactive,
+    onMounted,
     PropType,
-    toRaw,
-    shallowRef,
+    reactive,
     toRefs,
 } from 'vue';
-import { KeyInterface } from '../../keyboard.model';
-import KeyboardKey from '../keyboard-key/keyboard-key.vue';
 import keyboardLayoutService from '../../keyboard-layout.service';
 import { inputMethodsName } from '../../keyboard.layout';
+import { KeyInterface } from '../../keyboard.model';
 import { touchEvent } from '../../utils';
+import KeyboardKey from '../keyboard-key/keyboard-key.vue';
 
 export default defineComponent({
     components: { 'app-keyboard-key': KeyboardKey },
@@ -30,9 +21,6 @@ export default defineComponent({
             type: Boolean,
             default: false,
         },
-
-        /** 该容器用于放置填充元素，当input下方无足够空间显示键盘时需在该容器内填入元素 */
-        // @Input() container!: string;
 
         /** 显示关闭按钮 */
         closeAble: {
@@ -54,13 +42,6 @@ export default defineComponent({
     },
 
     setup(props, context) {
-        // @Output() onOpen = new EventEmitter<any>();
-        // @Output() onClose = new EventEmitter<any>();
-        // @Output() onInput = new EventEmitter<any>();
-
-        /** 路由跳转事件订阅 */
-        // private routerSub!: Subscription;
-
         const state = reactive({
             wrapperRef: undefined as HTMLElement | undefined,
             /** 默认键盘布局 */
@@ -139,7 +120,6 @@ export default defineComponent({
                 // 切换到原生输入法
                 context.emit('keyboard-close', 'changeIM');
             } else {
-                console.log('修改键盘:', method);
                 // 修改键盘
                 state.currentMethod = method;
                 initLayout(method, props.random);

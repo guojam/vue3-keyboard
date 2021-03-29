@@ -70,8 +70,6 @@ export default defineComponent({
             fillerContainer: undefined,
             /** 键盘高度 */
             keyboardHeight: undefined,
-            /** 路由跳转事件订阅 */
-            // routerSub: undefined,
         });
 
         const inputOnFocus = (event: Event) => {
@@ -130,8 +128,6 @@ export default defineComponent({
 
         /** 键盘关闭事件 */
         const onKeyboardClose = (action?: string) => {
-            console.log('onKeyboardClose, action:', action);
-
             const input = state.inputRef;
             // 延时，避免点击穿透
             setTimeout(() => {
@@ -183,10 +179,6 @@ export default defineComponent({
 
         const onKeyboardDocClick = (target) => {
             const input = state.inputRef;
-            console.log(
-                'onKeyboardDocClick, target === input',
-                target === input
-            );
             // 如点击对象不是当前输入框, 关闭键盘
             if (target !== input) {
                 closeKeyboard();
