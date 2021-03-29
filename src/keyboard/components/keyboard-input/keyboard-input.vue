@@ -14,16 +14,15 @@
 <script lang="ts">
 import {
     defineComponent,
-    onMounted,
     onBeforeUnmount,
-    computed,
+    onMounted,
     reactive,
     ref,
-    toRefs,
     toRaw,
+    toRefs,
 } from 'vue';
+import { focusInput, isIOS } from '../../utils';
 import Keyboard from '../keyboard/keyboard.vue';
-import { isIOS, focusInput } from '../../utils';
 
 export default defineComponent({
     components: {
@@ -119,8 +118,6 @@ export default defineComponent({
 
         /** 关闭键盘 */
         const closeKeyboard = () => {
-            console.log('closeKeyboard');
-
             if (keyboardState.isOpened) {
                 //  销毁键盘组件
                 keyboardState.isOpened = false;
@@ -150,8 +147,8 @@ export default defineComponent({
                 // 移除input不做表单校验的标识
                 input.removeAttribute('novalidate');
                 if (action === 'changeIM') {
-                    focusInput(input);
                     keyboardState.hasChangeIM = true;
+                    focusInput(input);
                 } else {
                     // 如不是切换输入法，关闭时触发自定义的input blur事件
                     const blurEvent = new CustomEvent('keyboardInputBlur', {
