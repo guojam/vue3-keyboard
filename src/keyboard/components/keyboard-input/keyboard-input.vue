@@ -3,6 +3,7 @@
     <teleport to="body" v-if="keyboardState.isOpened">
         <app-keyboard
             :inputMethods="inputMethods"
+            :random="random"
             @keyboard-open="onKeyboardOpen"
             @keyboard-close="onKeyboardClose"
             @keyboard-input="onKeyboardInput"
@@ -39,6 +40,10 @@ export default defineComponent({
             type: String,
             default: 'num',
         },
+        random: {
+            type: Boolean,
+            default: false,
+        },
     },
     setup(props) {
         const showKeyboard = ref(false);
@@ -51,6 +56,8 @@ export default defineComponent({
             inputMethods: props.inputMethod
                 .split(',')
                 .map((value) => value.trim()),
+            // 键位随机排序
+            random: props.random,
         });
 
         const keyboardState = reactive({

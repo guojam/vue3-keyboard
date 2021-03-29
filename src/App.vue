@@ -15,6 +15,7 @@
                     inputMethod="id"
                     name="idcard"
                     id="idcard"
+                    :random="true"
                 />
             </div>
             <div class="form-item">
@@ -23,6 +24,7 @@
                     inputMethod="num, system"
                     name="number"
                     id="number"
+                    :random="true"
                 />
             </div>
             <div class="form-item">
@@ -32,6 +34,7 @@
                     type="password"
                     name="password"
                     id="password"
+                    :random="true"
                 />
             </div>
         </form>

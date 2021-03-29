@@ -48,4 +48,5 @@ export const inputMethodsName = {
     all: '字母',
     num: '数字',
     system: '系统输入法',
+    id: '身份证',
 };

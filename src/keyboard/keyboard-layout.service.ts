@@ -5,42 +5,35 @@ import {
     decimalLayout,
     allLayout,
 } from './keyboard.layout';
-import { KeyInterface, KeyboardLayout } from './keyboard.model';
+import { KeyInterface } from './keyboard.model';
 
+/** 键盘布局Map */
+const layoutArrayMap = new Map([
+    ['id', idLayout],
+    ['inline-num', inlineNumericLayout],
+    ['decimal', decimalLayout],
+    ['all', allLayout],
+    ['num', numericLayout],
+]);
 /**
  * 软键盘布局服务
  */
 class KeyboardLayoutService {
     /** 获取键盘布局 */
-    getLayout(type: string, random?: boolean) {
-        let layout: KeyInterface[][];
+    getLayout(type: string, random = false): KeyInterface[][] {
+        const layoutArray = layoutArrayMap.get(type);
         // 获取键盘按键数据
-        if (type === 'id') {
-            layout = this.getKeyArray(idLayout, random);
-        } else if (type === 'inline-num') {
-            layout = this.getKeyArray(inlineNumericLayout, random);
-        } else if (type === 'decimal') {
-            layout = this.getKeyArray(decimalLayout, random);
-        } else if (type === 'all') {
-            layout = this.getKeyArray(allLayout, random);
-        } else {
-            layout = this.getKeyArray(numericLayout, random);
-        }
-        return layout;
-    }
-
-    /** 将键盘布局数组转换为对应的按键数组 */
-    private getKeyArray(
-        layoutArray: KeyboardLayout,
-        isRandom?: boolean
-    ): KeyInterface[][] {
         let randomKey: string[];
         // 数字键随机布局
-        if (isRandom) {
+        if (
+            random &&
+            (type === 'num' || type === 'inline-num' || type === 'id')
+        ) {
             const keyArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
             randomKey = this.getRandomArray(keyArray);
         }
-        return layoutArray.map((row: string[]): KeyInterface[] => {
+        // 将键盘布局数组转换为对应的按键数组
+        return layoutArray!.map((row: string[]): KeyInterface[] => {
             return row.map(
                 (keyStr: string): KeyInterface => {
                     return this.getKeyData(keyStr, randomKey);
