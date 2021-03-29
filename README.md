@@ -1,3 +1,5 @@
 # Vue 3 Keyboard
 
-Virtual keyboard component for Vue 3
+Virtual keyboard for Vue 3
+
+TODO: 键盘随机
