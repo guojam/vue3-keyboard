@@ -18,7 +18,7 @@
                             v-if="item !== currentMethod"
                             @[touchEvent.end].stop="changeInputMethod(item)"
                         >
-                            {{ inputMethodsName[item] }}
+                            {{ keyboardLayouts[item].name }}
                         </a></template
                     >
                 </span>

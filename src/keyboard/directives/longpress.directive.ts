@@ -44,4 +44,4 @@ const longpressDirective = {
     },
 };
 
-export default longpressDirective;
+export { longpressDirective };

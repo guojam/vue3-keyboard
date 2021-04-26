@@ -1,2 +1,2 @@
-import KeyboardInput from './components/keyboard-input/keyboard-input.vue';
-export { KeyboardInput };
+import { keyboardInputDirective } from './directives/keyboard-input.directive';
+export { keyboardInputDirective };

@@ -11,15 +11,15 @@
 </template>
 <script lang="ts">
 import {
-    defineComponent,
     computed,
+    defineComponent,
+    PropType,
     reactive,
     toRaw,
-    PropType,
     toRefs,
 } from 'vue';
-import { KeyInterface, KeyPressInterface } from '../../keyboard.model';
-import longpressDirective from '../../directives/longpress.directive';
+import { longpressDirective } from '../../directives/longpress.directive';
+import { KeyPressInterface } from '../../keyboard.model';
 import { touchEvent } from '../../utils';
 export default defineComponent({
     name: 'app-keyboard-key',

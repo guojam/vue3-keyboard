@@ -7,14 +7,18 @@ import {
     reactive,
     toRefs,
 } from 'vue';
-import keyboardLayoutService from '../../keyboard-layout.service';
-import { inputMethodsName } from '../../keyboard.layout';
-import { KeyInterface, KeyPressInterface } from '../../keyboard.model';
+import { getLayout } from '../../keyboard-layout.service';
+import { keyboardLayouts } from '../../keyboard.layout';
+import {
+    KeyboardType,
+    KeyInterface,
+    KeyPressInterface,
+} from '../../keyboard.model';
 import { touchEvent } from '../../utils';
-import KeyboardKey from '../keyboard-key/keyboard-key.vue';
+import KeyboardKeyComponent from '../keyboard-key/keyboard-key.vue';
 
 export default defineComponent({
-    components: { 'app-keyboard-key': KeyboardKey },
+    components: { 'app-keyboard-key': KeyboardKeyComponent },
     props: {
         /** 键位是否随机排序 */
         random: {
@@ -30,7 +34,7 @@ export default defineComponent({
 
         /** 可切换的输入法 */
         inputMethods: {
-            type: Array as PropType<string[]>,
+            type: Array as PropType<KeyboardType[]>,
             required: true,
         },
 
@@ -51,7 +55,7 @@ export default defineComponent({
             shift: false,
             /** 当前输入法 */
             currentMethod: props.inputMethods![0],
-            inputMethodsName,
+            keyboardLayouts,
             /** 触摸事件 */
             touchEvent,
         });
@@ -112,7 +116,7 @@ export default defineComponent({
         };
 
         /** 切换输入法 */
-        const changeInputMethod = (method: string) => {
+        const changeInputMethod = (method: KeyboardType) => {
             if (method === 'system') {
                 // 切换到原生输入法
                 context.emit('keyboard-close', 'changeIM');
@@ -124,11 +128,8 @@ export default defineComponent({
         };
 
         /** 初始化键盘布局 */
-        const initLayout = (type: string, random?: boolean) => {
-            const { layout, rowNum, colNum } = keyboardLayoutService.getLayout(
-                type,
-                random
-            );
+        const initLayout = (type: KeyboardType, random?: boolean) => {
+            const { layout, rowNum, colNum } = getLayout(type, random);
             state.layout = layout;
             state.gridStyle = {
                 'grid-template-columns': '1fr '.repeat(colNum),

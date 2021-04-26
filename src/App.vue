@@ -3,38 +3,41 @@
         <form action="">
             <div class="form-item">
                 <label for="username">全键盘</label>
-                <app-keyboard-input
-                    inputMethod="all, num, system"
+                <input
+                    v-keyboard-input="{ inputMethod: 'all, num, system' }"
                     name="username"
                     id="username"
                 />
             </div>
             <div class="form-item">
-                <label for="username">身份证</label>
-                <app-keyboard-input
-                    inputMethod="id"
+                <label for="idcard">身份证</label>
+                <input
+                    v-keyboard-input="{ inputMethod: 'id' }"
                     name="idcard"
                     id="idcard"
-                    :random="true"
                 />
             </div>
             <div class="form-item">
                 <label for="number">数字</label>
-                <app-keyboard-input
-                    inputMethod="num, system"
+                <input
+                    v-keyboard-input="{
+                        inputMethod: 'num, system',
+                        random: true,
+                    }"
                     name="number"
                     id="number"
-                    :random="true"
                 />
             </div>
             <div class="form-item">
                 <label for="password">密码</label>
-                <app-keyboard-input
-                    inputMethod="inline-num"
-                    type="password"
+                <input
+                    v-keyboard-input="{
+                        inputMethod: 'inline-num',
+                        random: true,
+                    }"
                     name="password"
                     id="password"
-                    :random="true"
+                    type="password"
                 />
             </div>
         </form>
@@ -42,18 +45,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
-import { KeyboardInput } from './keyboard/';
+import { defineComponent } from 'vue';
+import { keyboardInputDirective } from './keyboard/';
 
 export default defineComponent({
     name: 'App',
-    components: {
-        'app-keyboard-input': KeyboardInput,
+    directives: {
+        'keyboard-input': keyboardInputDirective,
     },
 });
 </script>
 
-<style>
+<style lang="scss">
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -66,13 +69,16 @@ export default defineComponent({
 }
 .form-item {
     margin: 20px 0;
-}
-.form-item label {
-    display: inline-block;
-    width: 60px;
-    margin-right: 10px;
-    text-align: right;
-}
-.form-item input {
+    label {
+        display: inline-block;
+        width: 60px;
+        margin-right: 10px;
+        text-align: right;
+    }
+    input {
+        &.focus {
+            border-color: blue;
+        }
+    }
 }
 </style>

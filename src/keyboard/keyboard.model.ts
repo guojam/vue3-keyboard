@@ -1,9 +1,8 @@
-/** Interface that can be used to generically type a class. */
-export interface ComponentType<T> {
-    new (...args: any[]): T;
-}
+/**
+ * 键盘组件数据模型
+ */
 
-/** 单个键盘按键 */
+/** 按键 */
 export interface KeyPressInterface {
     /** 功能键 */
     special: boolean;
@@ -13,7 +12,7 @@ export interface KeyPressInterface {
     keyValue?: string;
 }
 
-/** 键盘按键布局 */
+/** 按键布局 */
 export interface KeyInterface {
     /** 按键 */
     key: KeyPressInterface;
@@ -23,7 +22,7 @@ export interface KeyInterface {
     row: number;
 }
 
-/** 键盘布局type */
+/** 键盘布局 */
 export type KeyboardLayout = string[][];
 
 /** 自定义键盘输入事件 */
@@ -33,3 +32,31 @@ export interface KeyboardInputEvent {
     /** 事件数据 */
     value?: any;
 }
+
+/** 键盘组件参数 */
+export interface KeyboardProps {
+    /** 可切换的输入法 */
+    inputMethods: string[];
+    /** 键位是否随机排序 */
+    random?: boolean;
+    /** 显示关闭按钮 */
+    closeAble?: boolean;
+    /** 键盘容器样式名 */
+    style?: string;
+    /** 其他属性 */
+    [propName: string]: any;
+}
+
+/** 键盘类型 */
+export type KeyboardType =
+    | 'id'
+    | 'inline-num'
+    | 'decimal'
+    | 'all'
+    | 'num'
+    | 'system';
+
+/** 键盘布局汇总 */
+export type KeyboardLayouts = {
+    [propName in KeyboardType]?: { name: string; layout?: KeyboardLayout };
+};
