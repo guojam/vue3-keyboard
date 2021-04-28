@@ -1,4 +1,4 @@
-import createComponent from '../create-component';
+import { createComponent } from '../create-component';
 import KeyboardComponent from '../components/keyboard/keyboard.vue';
 import { KeyboardProps, KeyboardInputEvent } from '../keyboard.model';
 import { focusInput, isIOS } from '../utils';
@@ -236,7 +236,10 @@ class KeyboardInputService {
             onKeyboardInput: this.onKeyboardInput.bind(this),
             onKeyboardDocClick: this.onKeyboardDocClick.bind(this),
         };
-        const { destroy } = createComponent(KeyboardComponent, params);
+        const { destroy } = createComponent({
+            component: KeyboardComponent,
+            params,
+        });
         this.keyboardDestroy = destroy;
     }
 }
