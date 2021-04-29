@@ -1,7 +1,8 @@
+import { Directive } from 'vue';
 import { touchEvent } from '../utils';
 
-const longpressDirective = {
-    beforeMount(el: Element, binding: any) {
+const longpressDirective: Directive = {
+    beforeMount(el, binding) {
         // 定义变量
         let pressTimer: number | undefined, pressInterval: number | undefined;
 

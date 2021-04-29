@@ -1,11 +1,13 @@
+import { Directive } from 'vue';
+
 import { KeyboardProps } from '../keyboard.model';
 import { KeyboardInputService } from './keyboard-input.service';
 
 let keyboardInputService: KeyboardInputService;
 
 /** 软键盘输入框指令 */
-const keyboardInputDirective = {
-    mounted(el: HTMLInputElement, binding: any) {
+const keyboardInputDirective: Directive = {
+    mounted(el, binding) {
         const {
             /** 键位是否随机排序 */
             random,

@@ -16,7 +16,7 @@ function getLayout(type: KeyboardType, random = false) {
     let rowNum = layoutArray!.length,
         colNum = 0;
     // 将键盘布局数组转换为对应的按键数组
-    let layout = layoutArray!.map((row: string[]): KeyInterface[] => {
+    const layout = layoutArray!.map((row: string[]): KeyInterface[] => {
         colNum = Math.max(colNum, row.length);
         return row.map(
             (keyStr: string): KeyInterface => {

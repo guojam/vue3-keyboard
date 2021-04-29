@@ -35,7 +35,7 @@ class KeyboardInputService {
         this.bindInputEvent();
     }
 
-    inputOnFocus(event: Event) {
+    inputOnFocus() {
         const input = this.inputEl;
         if (!this.hasChangeIM) {
             // 未切换到系统输入法时
@@ -171,7 +171,7 @@ class KeyboardInputService {
 
     /** 调整页面空间 */
     resizePage() {
-        let fillerContainer = this.fillerContainer;
+        const fillerContainer = this.fillerContainer;
         if (!fillerContainer) {
             const keyboardContainer = this.keyboardContainer;
             if (keyboardContainer === 'body') {

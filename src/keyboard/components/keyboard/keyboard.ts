@@ -65,8 +65,7 @@ export default defineComponent({
             key: KeyPressInterface;
             type: string;
         }) => {
-            const key = $event.key,
-                type = $event.type;
+            const key = $event.key;
             let value = key.keyValue;
             if (key.special) {
                 // 功能键
@@ -129,7 +128,7 @@ export default defineComponent({
 
         /** 初始化键盘布局 */
         const initLayout = (type: KeyboardType, random?: boolean) => {
-            const { layout, rowNum, colNum } = getLayout(type, random);
+            const { layout, colNum } = getLayout(type, random);
             state.layout = layout;
             state.gridStyle = {
                 'grid-template-columns': '1fr '.repeat(colNum),
