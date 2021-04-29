@@ -13,8 +13,8 @@ function getLayout(type: KeyboardType, random = false) {
         const keyArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
         randomKey = getRandomArray(keyArray);
     }
-    let rowNum = layoutArray!.length,
-        colNum = 0;
+    const rowNum = layoutArray!.length;
+    let colNum = 0;
     // 将键盘布局数组转换为对应的按键数组
     const layout = layoutArray!.map((row: string[]): KeyInterface[] => {
         colNum = Math.max(colNum, row.length);

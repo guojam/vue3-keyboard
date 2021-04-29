@@ -1,7 +1,7 @@
 <template>
     <span
         :class="[currentClasses]"
-        @[touchEvent.start].stop="onTouchstart"
+        @[touchEvent.start].stop
         @[touchEvent.end].stop="onTouchend"
         @contextmenu.prevent
         v-keyboard-press="onLongPress"
@@ -64,8 +64,7 @@ export default defineComponent({
 
         /** 按键文字 */
         const currentText = computed(() => {
-            const currentKey = state.currentKey,
-                keyValue = currentKey.keyValue;
+            const currentKey = state.currentKey;
             let text = currentKey.keyText;
             if (!currentKey.special) {
                 if (props.shift) {
@@ -74,10 +73,6 @@ export default defineComponent({
             }
             return text;
         });
-
-        const onTouchstart = () => {
-            const key = state.currentKey;
-        };
 
         const onTouchend = () => {
             const key = toRaw(state.currentKey);
@@ -113,7 +108,6 @@ export default defineComponent({
             ...toRefs(state),
             currentClasses,
             currentText,
-            onTouchstart,
             onTouchend,
             onLongPress,
         };
