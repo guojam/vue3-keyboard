@@ -1,6 +1,6 @@
 <template>
     <div class="ui-keyboard-wrapper" ref="wrapperRef" @[touchEvent.end].stop>
-        <div :class="['ui-keyboard', currentMethod]">
+        <div :class="['ui-keyboard', currentMethod, style]">
             <div class="ui-keyboard-top">
                 <div class="ui-keyboard-title">安全键盘</div>
                 <span

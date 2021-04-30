@@ -4,7 +4,11 @@
             <div class="form-item">
                 <label for="username">全键盘</label>
                 <input
-                    v-keyboard-input="{ inputMethod: 'all, num, system' }"
+                    v-keyboard-input="{
+                        inputMethod: 'all, num, system',
+                        closeAble: true,
+                        style: 'custom-style',
+                    }"
                     name="username"
                     id="username"
                 />

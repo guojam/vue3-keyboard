@@ -177,6 +177,7 @@ export default defineComponent({
             ...toRefs(state),
             onKeyPress,
             changeInputMethod,
+            close,
         };
     },
 });

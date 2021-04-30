@@ -33,18 +33,18 @@
     // 收起键盘
     &-close {
         position: absolute;
-        width: 54px;
-        height: 45px;
+        width: 30px;
+        height: 30px;
         right: 0;
         top: 0;
         &:before {
-            content: '收起';
-            display: inline-block;
+            content: '↓';
             position: absolute;
-            right: 15px;
-            top: 13px;
-            width: 22px;
-            height: 19px;
+            width: 30px;
+            height: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
         }
     }
     // 切换输入法

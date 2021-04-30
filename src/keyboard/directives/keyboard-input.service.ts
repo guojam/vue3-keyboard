@@ -27,7 +27,7 @@ class KeyboardInputService {
     /** 键盘高度 */
     keyboardHeight!: number;
     /** 销毁键盘组件 */
-    keyboardDestroy = () => {};
+    keyboardDestroy!: () => void;
 
     constructor(input: HTMLInputElement, props: KeyboardProps) {
         this.inputEl = input;
@@ -96,6 +96,7 @@ class KeyboardInputService {
             this.closeKeyboard();
             // 移除input不做表单校验的标识
             input.removeAttribute('novalidate');
+            console.log('close action: ', action);
             if (action === 'changeIM') {
                 this.hasChangeIM = true;
                 focusInput(input);
